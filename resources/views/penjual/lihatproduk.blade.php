@@ -1,0 +1,64 @@
+@extends('penjual.master')
+
+@section('konten')
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">Daftar Produk Kuliner</h1>
+
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+    @endif
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Data Produk</h6>
+            <a href="{{ route('produk.create') }}" class="btn btn-primary btn-sm">
+                <i class="fas fa-plus"></i> Tambah Produk
+            </a>
+        </div>
+
+        <div class="card-body">
+            @if($produks->isEmpty())
+                <p class="text-center text-muted">Belum ada data produk.</p>
+            @else
+                <div class="table-responsive">
+                    <table class="table table-bordered text-center">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>No</th>
+                                <th>Nama Produk</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($produks as $index => $produk)
+                                <tr>
+                                    <td>{{ $index + 1 }}</td>
+                                    <td>{{ $produk->nama_produk }}</td>
+                                    <td>
+                                        <a href="{{ route('produk.show', $produk->id) }}" class="btn btn-success btn-sm">
+                                            <i class="fas fa-eye"></i> Detail
+                                        </a>
+                                        <a href="{{ route('produk.edit', $produk->id) }}" class="btn btn-info btn-sm">
+                                            <i class="fas fa-edit"></i> Edit
+                                        </a>
+                                        <form action="{{ route('produk.destroy', $produk->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus produk ini?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm">
+                                                <i class="fas fa-trash"></i> Hapus
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            @endif
+        </div>
+    </div>
+</div>
+@endsection

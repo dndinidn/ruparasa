@@ -1,0 +1,65 @@
+@extends('admin.master')
+
+@section('konten')
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>Data Agenda Budaya</h3>
+        <a href="{{ route('admin.agenda.create') }}" class="btn btn-primary">Tambah Agenda</a>
+    </div>
+
+    @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            @if($agendaBudaya->count())
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover text-center align-middle">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nama Agenda</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($agendaBudaya as $index => $agenda)
+                                <tr>
+                                    <td>{{ $agendaBudaya->firstItem() + $index }}</td>
+                                    <td>{{ $agenda->nama }}</td>
+                                    <td>
+                                        <!-- Tombol Detail -->
+                                        <a href="{{ route('admin.agenda.show', $agenda->id) }}" class="btn btn-sm btn-info text-white">
+                                            <i class="fas fa-eye"></i> Detail
+                                        </a>
+
+                                        <!-- Tombol Edit -->
+                                        <a href="{{ route('admin.agenda.edit', $agenda->id) }}" class="btn btn-sm btn-warning">
+                                            <i class="fas fa-edit"></i> Edit
+                                        </a>
+
+                                        <!-- Tombol Hapus -->
+                                        <form action="{{ route('admin.agenda.destroy', $agenda->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus agenda ini?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-sm btn-danger">
+                                                <i class="fas fa-trash"></i> Hapus
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                {{ $agendaBudaya->links() }}
+            @else
+                <p class="text-center text-muted">Belum ada data agenda.</p>
+            @endif
+        </div>
+    </div>
+</div>
+@endsection
