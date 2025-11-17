@@ -8,11 +8,16 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
-       body {
-    background: url("/images/bg-register.jpg") no-repeat center center fixed;
-    background-size: cover;
-    height: 100vh;
-}
+        :root {
+            --orange: #ff7a2d;
+            --orange-dark: #e06629;
+        }
+
+        body {
+            background: url("/images/bg-register.jpg") no-repeat center center fixed;
+            background-size: cover;
+            height: 100vh;
+        }
 
         .card {
             background: rgba(255, 255, 255, 0.9);
@@ -24,8 +29,22 @@
             border-radius: 10px;
         }
 
-        .btn-custom {
+        /* Tombol ORANGE */
+        .btn-primary {
+            background: var(--orange) !important;
+            border-color: var(--orange-dark) !important;
             border-radius: 10px;
+        }
+
+        .btn-primary:hover {
+            background: var(--orange-dark) !important;
+            border-color: var(--orange) !important;
+        }
+
+        /* Link ORANGE */
+        a, a:hover {
+            color: var(--orange-dark) !important;
+            text-decoration: none;
         }
     </style>
 </head>
@@ -34,6 +53,7 @@
         <div class="col-md-4">
             <div class="card p-4">
                 <h3 class="text-center mb-4">Register Akun</h3>
+
                 <form method="POST" action="{{ route('register-user.store') }}">
                     @csrf
                     <div class="mb-3">
@@ -56,9 +76,13 @@
                         <input type="password" name="password_confirmation" class="form-control" id="password_confirmation" required>
                     </div>
 
-                    <button type="submit" class="btn btn-primary w-100 btn-custom">Daftar</button>
+                    <button type="submit" class="btn btn-primary w-100">Daftar</button>
                 </form>
-                <p class="text-center mt-3">Sudah punya akun? <a href="#">Login</a></p>
+
+                <p class="text-center mt-3">
+                    Sudah punya akun?
+                    <a href="{{ route('login') }}">Login</a>
+                </p>
             </div>
         </div>
     </div>

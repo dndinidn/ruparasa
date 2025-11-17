@@ -2,17 +2,17 @@
 
 @section('konten')
 <div class="container-fluid py-4">
-    <h1 class="h3 mb-4 text-gray-800">🏪 Daftar Toko & Penjual di Marketplace</h1>
+    <h1 class="h3 mb-4" style="color: #e06629;">🏪 Daftar Toko & Penjual di Marketplace</h1>
 
     @if($toko->isEmpty())
-        <div class="alert alert-warning text-center py-3">
+        <div class="alert text-white text-center py-3" style="background-color: #e06629;">
             Belum ada toko yang terdaftar.
         </div>
     @else
-        <div class="card shadow-sm border-0 rounded-3">
+        <div class="card shadow-sm border-0 rounded-3" style="border-top: 4px solid #e06629;">
             <div class="card-body">
                 <table class="table table-bordered table-hover align-middle">
-                    <thead class="table-light text-center">
+                    <thead class="text-white text-center" style="background-color: #e06629;">
                         <tr>
                             <th>ID</th>
                             <th>Nama Toko</th>

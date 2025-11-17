@@ -57,7 +57,7 @@
 	</div>
 </div>
 {{-- ====== RESEP TERBARU ====== --}}
-<div class="section section-resep my-5">
+<!-- <div class="section section-resep my-5">
     <div class="container">
         <h2 class="text-center mb-4">🍽️ Resep Terbaru</h2>
         <div class="row">
@@ -79,7 +79,7 @@
                 </div>
             @endforeach
 
-        </div>
+        </div> -->
 
         <div class="text-center mt-4">
             <a href="{{ route('resep.index.frontend') }}" class="btn btn-outline-primary">See More</a>

@@ -78,7 +78,7 @@
                             <h5 class="card-title text-orange">{{ $rp->judul }}</h5>
 
                             {{-- DESKRIPSI --}}
-                            <p class="card-text text-muted">{{ Str::limit($rp->deskripsi, 100) }}</p>
+                            <!-- <p class="card-text text-muted">{{ Str::limit($rp->deskripsi, 100) }}</p> -->
 
                             {{-- TIPE --}}
                             <span class="badge bg-primary mb-3">{{ $rp->tipe }}</span>

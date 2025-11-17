@@ -12,6 +12,10 @@ class Penjual extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function toko()
+    {
+        return $this->hasOne(Toko::class); // 1 penjual punya 1 toko
+    }
 
     public function produks()
 {

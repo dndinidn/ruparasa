@@ -5,9 +5,9 @@
 
 <style>
 :root {
-  --blue: #1e90ff;        /* biru utama */
-  --blue-dark: #0b70d1;   /* biru gelap */
-  --profile-bg1: #ffffff; /* sidebar tidak biru */
+  --orange: #e06629;          /* ORANGE utama */
+  --orange-dark: #c25520;     /* ORANGE gelap */
+  --profile-bg1: #ffffff;     /* sidebar tidak biru */
   --profile-bg2: #f4f4f4;
   --card-shadow: 0 6px 20px rgba(34,34,34,0.08);
   --radius: 14px;
@@ -28,18 +28,18 @@
   padding: 22px;
 }
 
-/* SIDEBAR PROFIL - TIDAK BIRU */
+/* SIDEBAR PROFIL TETAP PUTIH */
 .profile {
   text-align: center;
   background: linear-gradient(180deg, var(--profile-bg1) 0%, var(--profile-bg2) 100%);
 }
 
-/* AVATAR BIRU */
+/* AVATAR ORANGE */
 .avatar-placeholder {
   width: 110px;
   height: 110px;
   border-radius: 20px;
-  background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+  background: linear-gradient(135deg, var(--orange), var(--orange-dark));
   color: white;
   display: flex;
   justify-content: center;
@@ -48,9 +48,9 @@
   margin: 20px auto 10px;
 }
 
-/* TOMBOL BIRU */
+/* TOMBOL ORANGE */
 .btn-orange {
-  background: linear-gradient(90deg, var(--blue), var(--blue-dark));
+  background: linear-gradient(90deg, var(--orange), var(--orange-dark));
   color: #fff;
   border: none;
   border-radius: 10px;
@@ -59,19 +59,19 @@
   width: 100%;
 }
 
-/* TEKS BIRU UTAMA (JUDUL – GARIS – HEADING) */
+/* TEKS ORANGE */
 h5, h4, label, .fw-bold, .title-blue {
-  color: var(--blue-dark) !important;
+  color: var(--orange-dark) !important;
 }
 
 /* INPUT */
 input, textarea {
-  border: 1px solid #bcd6ff !important;
+  border: 1px solid #f3c0a5 !important;
 }
 
 input:focus, textarea:focus {
-  border-color: var(--blue);
-  box-shadow: 0 0 4px rgba(30,144,255,0.4);
+  border-color: var(--orange);
+  box-shadow: 0 0 4px rgba(224,102,41,0.5);
 }
 
 .toggle-password {
@@ -81,14 +81,12 @@ input:focus, textarea:focus {
   cursor: pointer;
   color: #777;
 }
-
-
 </style>
 
 <div class="container py-4">
   <div class="wrap">
 
-    {{-- SIDEBAR – INFORMASI PENJUAL --}}
+    {{-- SIDEBAR PROFIL --}}
     <aside class="card profile">
       <div class="avatar-placeholder">{{ strtoupper(substr($user->name, 0, 1)) }}</div>
       <h4 class="fw-bold">{{ $user->name }}</h4>
@@ -101,7 +99,7 @@ input:focus, textarea:focus {
 
     {{-- FORM EDIT --}}
     <main class="card">
-      <h5 class="fw-bold mb-3" style="color: var(--orange);">Edit Data Akun</h5>
+      <h5 class="fw-bold mb-3">Edit Data Akun</h5>
 
       {{-- UPDATE DATA AKUN --}}
       <form action="{{ route('penjual.profile.updateAkun') }}" method="POST">
@@ -126,8 +124,8 @@ input:focus, textarea:focus {
 
       <hr>
 
-      {{-- UPDATE DATA TOKO --}}
-      <h5 class="fw-bold mb-3 mt-4" style="color: var(--orange);">Edit Profil Toko</h5>
+      {{-- UPDATE PROFIL TOKO --}}
+      <h5 class="fw-bold mb-3 mt-4">Edit Profil Toko</h5>
 
       <form action="{{ route('penjual.profile.updateToko') }}" method="POST">
         @csrf @method('PUT')
@@ -158,7 +156,7 @@ input:focus, textarea:focus {
       <hr>
 
       {{-- UPDATE PASSWORD --}}
-      <h5 class="fw-bold mb-3 mt-4" style="color: var(--orange);">Ubah Password</h5>
+      <h5 class="fw-bold mb-3 mt-4">Ubah Password</h5>
 
       <form action="{{ route('penjual.profile.updatePassword') }}" method="POST">
         @csrf
@@ -195,7 +193,7 @@ input:focus, textarea:focus {
       icon: 'success',
       title: 'Sukses!',
       text: '{{ session('success') }}',
-      confirmButtonColor: ' rgba(30,144,255,0.4)'
+      confirmButtonColor: '#e06629'
     })
   </script>
 @endif
@@ -206,7 +204,7 @@ input:focus, textarea:focus {
       icon: "error",
       title: "Terjadi Kesalahan",
       html: `{!! implode('<br>', $errors->all()) !!}`,
-      confirmButtonColor: " rgba(30,144,255,0.4)"
+      confirmButtonColor: "#e06629"
     })
   </script>
 @endif

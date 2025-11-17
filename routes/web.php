@@ -72,6 +72,13 @@ Route::middleware(['auth', 'role:user'])->group(function () {
         Route::post('/bayar/{pesanan_id}', [PesananController::class,'bayar'])->name('pesanan.bayar');
         Route::get('/lihatPengiriman', [PesananController::class,'lihatPengiriman'])->name('pesananuser.lihat');
         Route::post('/pesanan/terima/{id}', [PesananController::class,'terimaPesanan'])->name('pesanan.terima');
+        Route::delete('/pesanan/item/{id}', [PesananController::class, 'destroyItem'])->name('pesananitem.destroy');
+        // Tambah ke keranjang (menyimpan banyak produk sebelum checkout)
+        Route::post('/keranjang/tambah/{produk}', [PesananController::class, 'tambahKeranjang'])->name('pesanan.keranjang.tambah');
+        Route::get('/keranjang', [PesananController::class, 'lihatKeranjang'])->name('pesanan.keranjang');
+        Route::post('/keranjang/checkout/{pesanan}', [PesananController::class, 'bayarKeranjang'])->name('pesanan.keranjang.checkout');
+
+
     });
 
     // Cerita User

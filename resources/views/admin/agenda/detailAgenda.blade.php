@@ -28,7 +28,6 @@
 
             <div class="mt-4">
                 <a href="{{ route('admin.agenda.index') }}" class="btn btn-secondary">Kembali</a>
-                <a href="{{ route('admin.agenda.edit', $agenda->id) }}" class="btn btn-warning">Edit</a>
             </div>
         </div>
     </div>

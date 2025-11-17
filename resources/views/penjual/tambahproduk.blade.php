@@ -1,14 +1,35 @@
 @extends('penjual.master')
 
 @section('konten')
+<style>
+    .text-primary {
+        color: #e06629 !important;
+    }
+
+    .btn-primary {
+        background-color: #e06629 !important;
+        border-color: #e06629 !important;
+    }
+
+    .btn-primary:hover {
+        background-color: #c75822 !important;
+        border-color: #c75822 !important;
+    }
+
+    .card-header {
+        background-color: #e06629 !important;
+        color: #fff !important;
+    }
+</style>
+
 <div class="container-fluid">
-    <h1 class="h3 mb-4 text-gray-800">Tambah Produk Kuliner</h1>
+    <h1 class="h3 mb-4" style="color:#e06629;">Tambah Produk Kuliner</h1>
 
     <div class="row">
         <div class="col-lg-8">
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Form Tambah Produk Kuliner Daerah</h6>
+                    <h6 class="m-0 font-weight-bold">Form Tambah Produk Kuliner Daerah</h6>
                 </div>
                 <div class="card-body">
 
@@ -44,9 +65,11 @@
                         <button type="submit" class="btn btn-primary">
                             <i class="fas fa-save"></i> Simpan
                         </button>
+
                         <a href="{{ route('produk.index') }}" class="btn btn-secondary">
                             <i class="fas fa-arrow-left"></i> Kembali
                         </a>
+
                     </form>
 
                 </div>
@@ -55,4 +78,3 @@
     </div>
 </div>
 @endsection
-

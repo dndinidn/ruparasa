@@ -7,11 +7,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use App\Models\ActivityLog; // ← tambahkan ini kalau kamu punya tabel log
+use App\Models\ActivityLog;
 
 class ProfilController extends Controller
 {
-    // 🟠 Menampilkan halaman profil user yang login
+    // 🟠 Menampilkan halaman profil user
     public function index()
     {
         $user = Auth::user();
@@ -30,28 +30,30 @@ class ProfilController extends Controller
     {
         $user = Auth::user();
 
-        // ✅ Validasi input
+        // ✅ Validasi input termasuk alamat
         $validated = $request->validate([
-            'name'  => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
-            'bio'   => 'nullable|string|max:500',
-            'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'name'    => 'required|string|max:255',
+            'email'   => 'required|email|max:255|unique:users,email,' . $user->id,
+            'bio'     => 'nullable|string|max:500',
+            'provinsi' => 'nullable|string|max:100',
+        'kota' => 'nullable|string|max:100',
+            'alamat'  => 'nullable|string|max:255',   // ← DITAMBAH
+            'photo'   => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'kontak' => 'nullable|string|max:20',
         ]);
 
-        // ✅ Jika ada upload foto baru
+        // ✅ Upload foto baru
         if ($request->hasFile('photo')) {
-            // Hapus foto lama jika ada
             if ($user->photo && Storage::exists('public/profile/' . $user->photo)) {
                 Storage::delete('public/profile/' . $user->photo);
             }
 
-            // Simpan foto baru
             $filename = time() . '.' . $request->file('photo')->getClientOriginalExtension();
             $request->file('photo')->storeAs('public/profile', $filename);
             $validated['photo'] = $filename;
         }
 
-        // ✅ Update data user
+        // ✅ Update data user (termasuk alamat)
         $user->update($validated);
 
         // Catat log aktivitas
@@ -71,28 +73,23 @@ class ProfilController extends Controller
     {
         $user = Auth::user();
 
-        // ✅ Validasi input password
         $request->validate([
             'current_password' => 'required',
             'new_password' => 'required|min:6|confirmed',
         ]);
 
-        // ✅ Cek apakah password lama benar
         if (!Hash::check($request->current_password, $user->password)) {
             return back()->withErrors(['current_password' => 'Password lama salah.']);
         }
 
-        // ✅ Cek agar password baru tidak sama dengan password lama
         if (Hash::check($request->new_password, $user->password)) {
             return back()->withErrors(['new_password' => 'Password baru tidak boleh sama dengan password lama.']);
         }
 
-        // ✅ Update password baru
         $user->update([
             'password' => Hash::make($request->new_password),
         ]);
 
-        // ✅ Catat log aktivitas jika model ActivityLog ada
         if (class_exists(ActivityLog::class)) {
             ActivityLog::create([
                 'user_id' => $user->id,
@@ -101,15 +98,15 @@ class ProfilController extends Controller
             ]);
         }
 
-        // ✅ Kirim email notifikasi (opsional)
         try {
-            Mail::raw('Halo ' . $user->name . ",\n\nPassword akun Anda baru saja diubah. Jika ini bukan Anda, segera hubungi admin.", function ($message) use ($user) {
-                $message->to($user->email)
-                        ->subject('Notifikasi Perubahan Password');
-            });
-        } catch (\Exception $e) {
-            // Jika email gagal dikirim, tidak masalah — tetap lanjutkan
-        }
+            Mail::raw(
+                'Halo ' . $user->name . ",\n\nPassword akun Anda baru saja diubah.",
+                function ($message) use ($user) {
+                    $message->to($user->email)
+                            ->subject('Notifikasi Perubahan Password');
+                }
+            );
+        } catch (\Exception $e) {}
 
         return back()->with('success', 'Password berhasil diperbarui!');
     }

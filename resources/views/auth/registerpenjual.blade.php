@@ -3,10 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register Akun</title>
+    <title>Register Akun Penjual</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
+        :root {
+            --orange: #ff7a2d;
+            --orange-dark: #e06629;
+        }
+
         /* Background */
         body {
             background: url("/images/bg-register.jpg") no-repeat center center fixed;
@@ -24,12 +29,11 @@
             z-index: 1;
         }
 
-        /* Container utama agar tidak kepotong */
         .wrapper {
             position: relative;
             z-index: 2;
-            padding-top: 60px;      /* Tambah ruang atas */
-            padding-bottom: 60px;   /* Tambah ruang bawah */
+            padding-top: 60px;
+            padding-bottom: 60px;
         }
 
         .card {
@@ -38,7 +42,30 @@
             box-shadow: 0px 8px 20px rgba(0,0,0,0.3);
         }
 
-        h3, h5, label, p, a {
+        .form-control {
+            border-radius: 10px;
+        }
+
+        /* Tombol ORANGE */
+        .btn-primary {
+            background: var(--orange) !important;
+            border-color: var(--orange-dark) !important;
+            border-radius: 10px;
+        }
+
+        .btn-primary:hover {
+            background: var(--orange-dark) !important;
+            border-color: var(--orange) !important;
+        }
+
+        /* Link ORANGE */
+        a, a:hover {
+            color: var(--orange-dark) !important;
+            text-decoration: none;
+        }
+
+        /* Warna teks jadi hitam agar jelas */
+        h3, h5, label, p {
             color: #000 !important;
         }
     </style>
@@ -50,7 +77,7 @@
         <div class="col-md-5 col-lg-4">
             
             <div class="card p-4">
-                <h3 class="text-center mb-4">Register Akun</h3>
+                <h3 class="text-center mb-4">Register Penjual</h3>
 
                 <form method="POST" action="{{ route('registerpenjual.store') }}">
                     @csrf

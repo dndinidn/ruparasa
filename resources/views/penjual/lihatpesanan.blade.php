@@ -1,8 +1,21 @@
 @extends('penjual.master')
 
 @section('konten')
+
+<style>
+    .badge-primary {
+        background-color: #e06629 !important;
+    }
+    .text-primary {
+        color: #e06629 !important;
+    }
+    h1 {
+        color: #e06629 !important;
+    }
+</style>
+
 <div class="container-fluid">
-    <h1 class="h3 mb-4 text-gray-800">Daftar Pesanan</h1>
+    <h1 class="h3 mb-4">Daftar Pesanan</h1>
 
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -25,25 +38,34 @@
                 </tr>
             </thead>
             <tbody>
+
                 @forelse($pesanan as $index => $p)
                     <tr>
                         <td>{{ $index + 1 }}</td>
                         <td>#{{ $p->id }}</td>
+
                         <td class="text-right">{{ number_format($p->total,0,',','.') }}</td>
                         <td class="text-right">{{ number_format($p->ongkir,0,',','.') }}</td>
+
                         <td>
                             @if($p->status == 'menunggu_konfirmasi')
                                 <span class="badge badge-secondary">Menunggu Konfirmasi</span>
+
                             @elseif($p->status == 'dikemas')
                                 <span class="badge badge-warning">Dikemas</span>
+
                             @elseif($p->status == 'dikirim')
                                 <span class="badge badge-primary">Dikirim</span>
+
                             @elseif($p->status == 'selesai')
                                 <span class="badge badge-success">Selesai</span>
+
                             @else
                                 <span class="badge badge-secondary">{{ ucfirst($p->status) }}</span>
+
                             @endif
                         </td>
+
                         <td class="text-left">
                             <ul class="mb-0">
                                 @foreach($p->items as $item)
@@ -51,23 +73,34 @@
                                 @endforeach
                             </ul>
                         </td>
+
                         <td>
-                            <form action="{{ route('pesanan.hapus', $p->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus pesanan ini?')">
+                            <form action="{{ route('pesanan.hapus', $p->id) }}" 
+                                  method="POST" 
+                                  onsubmit="return confirm('Yakin ingin menghapus pesanan ini?')">
+                                
                                 @csrf
                                 @method('DELETE')
+
                                 <button type="submit" class="btn btn-danger btn-sm">
                                     <i class="fas fa-trash"></i> Hapus
                                 </button>
+
                             </form>
                         </td>
+
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="7" class="text-center text-muted">Belum ada pesanan dikirim.</td>
+                        <td colspan="7" class="text-center text-muted">
+                            Belum ada pesanan dikirim.
+                        </td>
                     </tr>
                 @endforelse
+
             </tbody>
         </table>
     </div>
 </div>
+
 @endsection

@@ -3,8 +3,8 @@
 @section('konten')
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold text-blue">📗 Daftar Cerita</h2>
-        <a href="{{ route('cerita.create') }}" class="btn btn-blue">➕ Tambah Cerita</a>
+        <h2 class="fw-bold text-orange">📗 Daftar Cerita</h2>
+        <a href="{{ route('cerita.create') }}" class="btn btn-orange">➕ Tambah Cerita</a>
     </div>
 
     @if(session('success'))
@@ -12,7 +12,7 @@
     @endif
 
     <table class="table table-bordered table-striped shadow-sm">
-        <thead class="table-primary text-center">
+        <thead class="table-orange text-center">
             <tr>
                 <th>No</th>
                 <th>Judul</th>
@@ -49,15 +49,26 @@
 </div>
 
 <style>
-.text-blue { color: #007bff !important; }
-.btn-blue {
-    background-color: #007bff;
-    color: white;
-    border: none;
+/* Warna Oranye Utama */
+.text-orange { 
+    color: #e06629 !important; 
 }
-.btn-blue:hover {
-    background-color: #0056b3;
-    color: white;
+
+/* Tombol Oranye */
+.btn-orange {
+    background-color: #e06629 !important;
+    color: white !important;
+    border: none !important;
+}
+.btn-orange:hover {
+    background-color: #c75720 !important;
+    color: white !important;
+}
+
+/* Header Tabel Oranye */
+.table-orange {
+    background-color: #e06629 !important;
+    color: white !important;
 }
 </style>
 @endsection

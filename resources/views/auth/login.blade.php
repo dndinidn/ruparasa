@@ -7,10 +7,16 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
+        :root {
+            --orange: #ff7a2d;
+            --orange-dark: #e06629;
+        }
+
         body {
             background: url("https://picsum.photos/1920/1080?blur=3") no-repeat center center fixed;
             background-size: cover;
         }
+
         .login-box {
             background: rgba(255, 255, 255, 0.9);
             padding: 30px;
@@ -18,6 +24,29 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
             max-width: 400px;
             margin: 80px auto;
+        }
+
+        /* Tombol utama jadi ORANGE */
+        .btn-primary {
+            background: var(--orange) !important;
+            border-color: var(--orange-dark) !important;
+        }
+
+        .btn-primary:hover {
+            background: var(--orange-dark) !important;
+            border-color: var(--orange) !important;
+        }
+
+        /* Link Register warna ORANGE */
+        a, a:hover {
+            color: var(--orange-dark) !important;
+            text-decoration: none;
+        }
+
+        /* Dropdown item hover ORANGE */
+        .dropdown-item:hover {
+            background-color: var(--orange) !important;
+            color: white !important;
         }
     </style>
 </head>
@@ -61,10 +90,11 @@
 
             <div class="mt-3 text-center dropdown">
                 Belum punya akun?
-                <a href="#" class="dropdown-toggle text-primary text-decoration-none" id="dropdownRegister"
+                <a href="#" class="dropdown-toggle" id="dropdownRegister"
                    data-bs-toggle="dropdown" aria-expanded="false">
                    Register
                 </a>
+
                 <ul class="dropdown-menu" aria-labelledby="dropdownRegister">
                     <li><a class="dropdown-item" href="{{ route('register-user') }}">Register sebagai User</a></li>
                     <li><a class="dropdown-item" href="{{ route('registerpenjual') }}">Register sebagai Penjual</a></li>
@@ -73,7 +103,7 @@
         </div>
     </div>
 
-    <!-- ✅ Tambahkan baris ini -->
+    <!-- JS Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

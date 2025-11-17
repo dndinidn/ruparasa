@@ -4,7 +4,7 @@
 <div class="container py-4">
 
     <div class="card shadow-lg border-0">
-        <div class="card-header bg-gradient-primary text-white">
+        <div class="card-header text-white" style="background-color: #e06629;">
             <h4 class="mb-0">{{ $video->judul }}</h4>
         </div>
 
@@ -25,7 +25,9 @@
             @endif
 
             <div class="mt-4">
-                <a href="{{ route('admin.video.index') }}" class="btn btn-secondary">Kembali</a>
+                <a href="{{ route('admin.video.index') }}" class="btn text-white" style="background-color: #e06629;">
+                    Kembali
+                </a>
             </div>
         </div>
     </div>

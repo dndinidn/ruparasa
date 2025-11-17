@@ -35,6 +35,10 @@ protected $fillable = [
         'role',
         'bio',
         'photo',
+        'alamat',
+        'provinsi',
+        'kota',
+        'kontak'
     ];
 
 

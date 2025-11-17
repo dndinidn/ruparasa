@@ -24,7 +24,7 @@
 
     <!-- Data Table -->
     <div class="card shadow-lg border-0">
-        <div class="card-header bg-gradient-primary text-white py-3 d-flex justify-content-between align-items-center">
+        <div class="card-header bg-gradient-orange text-white py-3 d-flex justify-content-between align-items-center">
             <h6 class="m-0 font-weight-bold">Data Video</h6>
             <span class="badge badge-light">{{ $videos->count() }} Video</span>
         </div>
