@@ -13,14 +13,14 @@
     <div class="container position-relative mb-4">
         <div class="d-flex justify-content-end gap-2">
             <!-- Icon Kardus (langsung ke pesanan / COD) -->
-            <a href="{{ route('pesananuser.lihat') }}" 
+            <a href="{{ route('pesananuser.lihat') }}"
                class="btn btn-orange d-flex align-items-center">
                 <i class="bi bi-box-seam me-1"></i>
                 Pesanan
             </a>
 
             <!-- Icon Keranjang (untuk menampung banyak produk sebelum checkout) -->
-            <a href="{{ route('pesanan.keranjang') }}" 
+            <a href="{{ route('pesanan.keranjang') }}"
                class="btn btn-orange position-relative d-flex align-items-center">
                 <i class="bi bi-cart-check-fill me-1"></i>
                 Keranjang
@@ -70,11 +70,15 @@
 <div class="d-flex gap-2 mt-auto">
 
     <!-- Beli Sekarang -->
-    <form action="{{ route('pesanan.beli', $produk->id) }}" method="POST" class="flex-fill beli-form">
-        @csrf
-        <input type="hidden" name="jumlah" class="jumlah-input" value="1">
-        <button type="submit" class="btn btn-orange w-100">Beli Sekarang</button>
-    </form>
+ <form action="{{ route('pesanan.beli', $produk->id) }}"
+      method="POST" class="beli-form">
+    @csrf
+    <input type="hidden" name="jumlah" class="jumlah-input" value="1">
+    <button type="submit" class="btn btn-primary">Beli Sekarang</button>
+</form>
+
+
+
 
     <!-- Tambah ke Keranjang -->
     <form action="{{ route('pesanan.keranjang.tambah', $produk->id) }}" method="POST" class="flex-fill keranjang-form">

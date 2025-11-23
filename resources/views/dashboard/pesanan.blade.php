@@ -1,4 +1,5 @@
 @extends('dashboard.master')
+
 @section('konten')
 <style>
 .text-orange { color: #f77f00 !important; }
@@ -28,8 +29,14 @@
 <div class="container my-5">
     <h2 class="text-orange fw-bold mb-4">Daftar Pesanan</h2>
 
-    @if($pesanan && $pesanan->items->count() > 0)
+    @if($pesanan)
+        @php
+            $item = $pesanan->items->first();
+            $subtotal = $pesanan->items->sum(fn($i) => $i->harga * $i->jumlah);
+        @endphp
+
         <div class="card shadow-sm border-0 p-4">
+
             <table class="table table-bordered align-middle mb-3">
                 <thead class="table-light">
                     <tr>
@@ -40,27 +47,32 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($pesanan->items as $item)
+                    @if($item)
                     <tr>
                         <td>{{ $item->produk->nama_produk }}</td>
                         <td>Rp {{ number_format($item->harga,0,',','.') }}</td>
                         <td>{{ $item->jumlah }}</td>
                         <td>Rp {{ number_format($item->harga * $item->jumlah,0,',','.') }}</td>
                     </tr>
-                    @endforeach
+                    @endif
                 </tbody>
             </table>
 
             {{-- Ringkasan --}}
             <div class="mt-3 mb-3">
                 <p><strong>Alamat:</strong> {{ $pesanan->alamat }}, {{ $pesanan->kota }}, {{ $pesanan->provinsi }}</p>
-                <p><strong>Sub total pesanan:</strong> Rp {{ number_format($pesanan->items->sum(fn($i)=> $i->harga * $i->jumlah),0,',','.') }}</p>
+                <p><strong>Sub total pesanan:</strong> Rp {{ number_format($subtotal,0,',','.') }}</p>
                 <p><strong>Ongkir:</strong> Rp {{ number_format($pesanan->ongkir ?? 0,0,',','.') }}</p>
-                <p><strong>Total:</strong> Rp {{ number_format($pesanan->total ?? $pesanan->items->sum(fn($i)=> $i->harga * $i->jumlah),0,',','.') }}</p>
+                <p><strong>Total:</strong> Rp {{ number_format($pesanan->total,0,',','.') }}</p>
             </div>
 
-            {{-- Tombol Checkout / Pesan --}}
-            <button id="btnBayar" class="btn btn-orange w-100 fw-semibold">Checkout</button>
+            <button
+                id="btnBayar"
+                data-id="{{ $pesanan->id }}"
+                class="btn btn-orange w-100 fw-semibold">
+                Checkout
+            </button>
+
         </div>
     @else
         <p class="text-center text-muted py-4">Belum ada pesanan.</p>
@@ -72,45 +84,51 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content p-3 text-center">
         <h5 class="text-orange fw-bold mb-3">Pesanan Berhasil</h5>
-        <p>Pesanan Anda akan dikirim (COD). Terima kasih!</p>
+        <p>Pesanan Anda akan diproses (COD). Terima kasih!</p>
         <button id="okCOD" class="btn btn-orange w-100" data-bs-dismiss="modal">Selesai</button>
     </div>
   </div>
 </div>
 
-{{-- SWEETALERT --}}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
-document.getElementById('btnBayar').addEventListener('click', function(){
-    // tampilkan modal COD
+document.getElementById('btnBayar').addEventListener('click', function() {
+
+    var pesananId = this.dataset.id;
+
     var codModal = new bootstrap.Modal(document.getElementById('codModal'));
     codModal.show();
 
-    // tombol Selesai modal
-    document.getElementById('okCOD').addEventListener('click', function(){
-        fetch("{{ route('pesananuser.lihat', $pesanan->id) }}", {
+    document.getElementById('okCOD').addEventListener('click', function() {
+
+       fetch("/pesanan/bayar", {
+
             method: 'POST',
             headers: {
                 'X-CSRF-TOKEN': "{{ csrf_token() }}",
                 'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ metode_pembayaran: 'cod' })
+            }
         })
         .then(res => res.json())
         .then(data => {
-            if(data.success){
-                // SweetAlert sukses
+
+            if (data.success) {
                 Swal.fire({
                     icon: 'success',
                     title: 'Pesanan Berhasil!',
-                    text: 'Pesanan Anda telah dibuat (COD).',
+                    text: 'Pesanan Anda telah dikonfirmasi (COD).',
                     confirmButtonColor: '#f77f00',
                 }).then(() => {
                     window.location.href = "{{ route('pesananuser.lihat') }}";
                 });
             }
+
         });
-    }, { once: true }); // hanya sekali listener
+
+    }, { once: true });
+
 });
 </script>
+
 @endsection

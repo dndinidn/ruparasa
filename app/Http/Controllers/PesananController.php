@@ -18,26 +18,21 @@ class PesananController extends Controller
     // ======================
 
     // Tambah produk ke "keranjang"
-    // Beli Sekarang → hanya satu produk 
-    public function beli(Request $request, $produk_id)
+    // Beli Sekarang → hanya satu produk
+  public function beli(Request $request, $produk_id)
 {
     $produk = Produk::findOrFail($produk_id);
     $jumlah = $request->jumlah ?? 1;
 
-    // Buat pesanan baru khusus beli sekarang (tidak menghapus yang lain)
-    $pesanan = Pesanan::create([
-        'user_id' => Auth::id(),
-        'status' => 'dikemas', // status sementara sampai user checkout
-        'total' => $produk->harga * $jumlah,
-        'ongkir' => 0,
-    ]);
-
-    // Tambahkan item
-    PesananItem::create([
-        'pesanan_id' => $pesanan->id,
-        'produk_id' => $produk->id,
-        'jumlah' => $jumlah,
-        'harga' => $produk->harga,
+    // Simpan data beli sekarang ke session (bukan ke database)
+    session([
+        'beli_sekarang' => [
+            'produk_id' => $produk->id,
+            'nama'      => $produk->nama_produk,
+            'harga'     => $produk->harga,
+            'jumlah'    => $jumlah,
+            'total'     => $produk->harga * $jumlah
+        ]
     ]);
 
     return redirect()->route('pesanan.index');
@@ -49,35 +44,33 @@ public function index()
 {
     $user = Auth::user();
 
-    // ambil pesanan "dikemas" paling baru
-    $pesanan = Pesanan::with('items.produk.penjual')
-        ->where('user_id', $user->id)
-        ->where('status', 'dikemas')
-        ->latest()
-        ->first();
+    // Jika beli sekarang → ambil dari session
+    if (session()->has('beli_sekarang')) {
 
-    if ($pesanan) {
-        $pesanan->provinsi = $user->provinsi ?? $pesanan->provinsi;
-        $pesanan->kota = $user->kota ?? $pesanan->kota;
-        $pesanan->alamat = $user->alamat ?? $pesanan->alamat;
+        $data = session('beli_sekarang');
 
-        if ($pesanan->items->isNotEmpty()) {
-            $produkPertama = $pesanan->items->first()->produk;
-            $kotaToko = $produkPertama->penjual->kota ?? null;
-            $kotaPembeli = $pesanan->kota ?? null;
+        // Format palsu seperti pesanan
+        $pesanan = (object)[
+            'id' => null,
+            'items' => collect([
+                (object)[
+                    'produk' => Produk::find($data['produk_id']),
+                    'jumlah' => $data['jumlah'],
+                    'harga'  => $data['harga']
+                ]
+            ]),
+            'provinsi' => $user->provinsi,
+            'kota'     => $user->kota,
+            'alamat'   => $user->alamat,
+            'ongkir'   => 0,
+            'total'    => $data['total']
+        ];
 
-            $ongkir = Ongkir::where('dari_kota', $kotaToko)
-                            ->where('ke_kota', $kotaPembeli)
-                            ->value('ongkir') ?? 0;
-
-            $pesanan->ongkir = $ongkir;
-            $pesanan->total = $pesanan->items->sum(fn($i)=> $i->harga * $i->jumlah) + $ongkir;
-        }
+        return view('dashboard.pesanan', compact('pesanan', 'user'));
     }
 
-    return view('dashboard.pesanan', compact('pesanan', 'user'));
+    // (kode anda untuk keranjang tetap di sini)
 }
-
 
 
     // Update jumlah item
@@ -120,11 +113,66 @@ public function checkout(Request $request)
     $pesanan->ongkir = $ongkir;
     $pesanan->total = $pesanan->items->sum(fn($i)=> $i->harga * $i->jumlah) + $ongkir;
     $pesanan->save();
-    
+
 
     return redirect()->route('pesananuser.lihat')->with('success', 'Pesanan berhasil dibuat.');
 }
 
+public function bayar(Request $request, $id = null)
+{
+    $user = Auth::user();
+
+    // ================================
+    // 1) BAYAR DARI BELI SEKARANG
+    // ================================
+    if ($id === null) {
+
+        if (!session()->has('beli_sekarang')) {
+            return response()->json(['success' => false, 'message' => 'Session kosong']);
+        }
+
+        $data = session('beli_sekarang');
+
+        // Buat pesanan baru
+        $pesanan = Pesanan::create([
+            'user_id'  => $user->id,
+            'status'   => 'dikemas',
+            'provinsi' => $user->provinsi,
+            'kota'     => $user->kota,
+            'alamat'   => $user->alamat,
+            'ongkir'   => 0,
+            'total'    => $data['total'],
+        ]);
+
+        // Tambahkan item
+        PesananItem::create([
+            'pesanan_id' => $pesanan->id,
+            'produk_id'  => $data['produk_id'],
+            'jumlah'     => $data['jumlah'],
+            'harga'      => $data['harga'],
+        ]);
+
+        // Hapus session
+        session()->forget('beli_sekarang');
+
+        return response()->json([
+            'success' => true,
+            'pesanan_id' => $pesanan->id
+        ]);
+    }
+
+    // ================================
+    // 2) BAYAR DARI HALAMAN PESANAN / KERANJANG
+    // ================================
+    $pesanan = Pesanan::where('id', $id)
+        ->where('user_id', $user->id)
+        ->firstOrFail();
+
+    $pesanan->status = 'dikemas';
+    $pesanan->save();
+
+    return response()->json(['success' => true, 'pesanan_id' => $pesanan->id]);
+}
 
 
 
@@ -171,24 +219,7 @@ public function checkout(Request $request)
 //     return redirect()->route('pesanan.pembayaran', $pesanan->id)
 //         ->with('success', 'Pesanan berhasil dibuat (COD).');
 // }
-public function bayar(Request $request, $id)
-{
-    $pesanan = Pesanan::where('id', $id)
-                ->where('user_id', Auth::id())
-                ->firstOrFail();
 
-    // Ubah status menjadi dikirim
-    $pesanan->status = 'dikemas';
-    $pesanan->save();
-
-    // Buat keranjang baru untuk user
-    Pesanan::create([
-        'user_id' => Auth::id(),
-        'status' => 'keranjang'
-    ]);
-
-    return response()->json(['success' => true]);
-}
 public function beliSekarang(Request $request)
 {
     $ids = $request->checkout ?? [];
