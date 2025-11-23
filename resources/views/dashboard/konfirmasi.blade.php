@@ -96,14 +96,11 @@ document.getElementById('btnBayar')?.addEventListener('click', function(){
     codModal.show();
 
     document.getElementById('okCOD')?.addEventListener('click', function(){
-        fetch("{{ route('pesananuser.lihat', $pesanan->id) }}", {
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': "{{ csrf_token() }}",
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ metode_pembayaran: 'cod' })
-        })
+    fetch("/pesanan/bayar/{{ $pesanan->id }}", {
+    method: "POST",
+    headers: { "X-CSRF-TOKEN": "{{ csrf_token() }}" }
+})
+
         .then(res => res.json())
         .then(data => {
             if(data.success){

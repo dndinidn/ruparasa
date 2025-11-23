@@ -344,10 +344,12 @@ public function tambahKeranjang(Request $request, Produk $produk)
     $jumlah = $request->jumlah ?? 1;
 
     // Ambil atau buat pesanan aktif user
-    $pesanan = Pesanan::firstOrCreate(
-        ['user_id' => Auth::id(), 'status' => 'dikemas'],
-        ['total' => 0, 'ongkir' => 0]
-    );
+$pesanan = Pesanan::firstOrCreate(
+    ['user_id' => Auth::id(), 'status' => 'dikemas'],
+    ['total' => 0, 'ongkir' => 0]
+);
+
+
 
     // Tambah atau update item
     PesananItem::updateOrCreate(
@@ -369,6 +371,7 @@ public function lihatKeranjang()
     $pesanan = Pesanan::with('items.produk')
                 ->where('user_id', Auth::id())
                 ->where('status', 'dikemas')
+
                 ->first();
 
     return view('dashboard.keranjang', compact('pesanan'));
@@ -410,5 +413,9 @@ public function bayarKeranjang(Request $request, Pesanan $pesanan)
     return view('penjual.lihatpesanan', compact('pesanan'));
 }
 
+public function konfirmasi()
+{
+    return view('dashboard.konfirmasi');
+}
 
 }

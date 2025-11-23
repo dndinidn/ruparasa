@@ -71,13 +71,13 @@ Route::prefix('pesanan')->group(function () {
     Route::post('/checkout', [PesananController::class,'checkout'])->name('pesanan.checkout');
     Route::get('/pembayaran/{pesanan_id}', [PesananController::class,'pembayaran'])->name('pesanan.pembayaran');
     // Route::post('/bayar/{pesanan_id}', [PesananController::class,'bayar'])->name('pesanan.bayar');
-    Route::post('/bayar', [PesananController::class,'bayar'])->name('pesananuser.bayar');
-
     Route::get('/lihatPengiriman', [PesananController::class,'lihatPengiriman'])->name('pesananuser.lihat');
     Route::post('/terima/{id}', [PesananController::class,'terimaPesanan'])->name('pesanan.terima');
     Route::get('/preview/{id}', [PesananController::class, 'preview'])->name('pesanan.preview');
-
+ Route::post('/bayar', [PesananController::class,'bayar'])->name('pesananuser.bayar');
     // perbaikan: hapus "pesanan/" karena sudah dalam prefix
+    Route::post('/bayar/{pesanan_id}', [PesananController::class,'bayar'])->name('pesanan.bayar');
+
     Route::delete('/item/{id}', [PesananController::class, 'destroyItem'])->name('pesananitem.destroy');
 
     // Keranjang
