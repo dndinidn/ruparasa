@@ -70,7 +70,9 @@ Route::prefix('pesanan')->group(function () {
     Route::post('/update-item/{item_id}', [PesananController::class,'updateItem'])->name('pesanan.updateItem');
     Route::post('/checkout', [PesananController::class,'checkout'])->name('pesanan.checkout');
     Route::get('/pembayaran/{pesanan_id}', [PesananController::class,'pembayaran'])->name('pesanan.pembayaran');
-    Route::post('/bayar/{pesanan_id}', [PesananController::class,'bayar'])->name('pesanan.bayar');
+    // Route::post('/bayar/{pesanan_id}', [PesananController::class,'bayar'])->name('pesanan.bayar');
+    Route::post('/bayar', [PesananController::class,'bayar'])->name('pesananuser.bayar');
+
     Route::get('/lihatPengiriman', [PesananController::class,'lihatPengiriman'])->name('pesananuser.lihat');
     Route::post('/terima/{id}', [PesananController::class,'terimaPesanan'])->name('pesanan.terima');
     Route::get('/preview/{id}', [PesananController::class, 'preview'])->name('pesanan.preview');
@@ -87,7 +89,6 @@ Route::prefix('pesanan')->group(function () {
     Route::post('/beli-sekarang', [PesananController::class, 'beliSekarang'])->name('pesanan.beliSekarang');
     Route::get('/pesanan/konfirmasi', [PesananController::class, 'konfirmasi'])->name('pesanan.konfirmasi');
 
-Route::post('/pesanan/bayar', [PesananController::class,'bayar'])->name('pesanan.bayar');
 
 });
 

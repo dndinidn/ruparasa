@@ -97,13 +97,13 @@ document.getElementById('btnBayar').addEventListener('click', function() {
 
     var pesananId = this.dataset.id;
 
+    // Tampilkan modal
     var codModal = new bootstrap.Modal(document.getElementById('codModal'));
     codModal.show();
 
     document.getElementById('okCOD').addEventListener('click', function() {
 
-       fetch("/pesanan/bayar", {
-
+        fetch("{{ route('pesananuser.bayar') }}", {
             method: 'POST',
             headers: {
                 'X-CSRF-TOKEN': "{{ csrf_token() }}",
@@ -112,8 +112,7 @@ document.getElementById('btnBayar').addEventListener('click', function() {
         })
         .then(res => res.json())
         .then(data => {
-
-            if (data.success) {
+            if(data.success){
                 Swal.fire({
                     icon: 'success',
                     title: 'Pesanan Berhasil!',
@@ -122,13 +121,29 @@ document.getElementById('btnBayar').addEventListener('click', function() {
                 }).then(() => {
                     window.location.href = "{{ route('pesananuser.lihat') }}";
                 });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal!',
+                    text: data.message || 'Terjadi kesalahan.',
+                    confirmButtonColor: '#f77f00',
+                });
             }
-
+        })
+        .catch(err => {
+            console.error(err);
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                text: 'Terjadi kesalahan saat memproses pesanan.',
+                confirmButtonColor: '#f77f00',
+            });
         });
 
     }, { once: true });
 
 });
+
 </script>
 
 @endsection
