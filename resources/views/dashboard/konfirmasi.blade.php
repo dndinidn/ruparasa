@@ -1,5 +1,6 @@
 @extends('dashboard.master')
 @section('konten')
+
 <style>
 .text-orange { color: #f77f00 !important; }
 
@@ -11,25 +12,32 @@
     padding: 10px 0;
     transition: all 0.3s ease;
 }
-.btn-orange:hover {
-    opacity: 0.85;
-}
+.btn-orange:hover { opacity: 0.85; }
 
 .card {
     border-radius: 20px;
     overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
 }
 
 .table th, .table td {
     vertical-align: middle;
 }
+
+.product-img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+}
 </style>
 
 <div class="container my-5">
-    <h2 class="text-orange fw-bold mb-4">Daftar Pesanan</h2>
+    <h2 class="text-orange fw-bold mb-4">Konfirmasi Pesanan</h2>
 
     @if($pesanan && $pesanan->items->count() > 0)
-        <div class="card shadow-sm border-0 p-4">
+        <div class="card p-4">
             <table class="table table-bordered align-middle mb-3">
                 <thead class="table-light">
                     <tr>
@@ -42,7 +50,10 @@
                 <tbody>
                     @foreach($pesanan->items as $item)
                     <tr>
-                        <td>{{ $item->produk->nama_produk }}</td>
+                        <td class="d-flex align-items-center">
+                            <img src="{{ asset('storage/' . $item->produk->gambar) }}" class="product-img me-2">
+                            {{ $item->produk->nama_produk }}
+                        </td>
                         <td>Rp {{ number_format($item->harga,0,',','.') }}</td>
                         <td>{{ $item->jumlah }}</td>
                         <td>Rp {{ number_format($item->harga * $item->jumlah,0,',','.') }}</td>
@@ -78,16 +89,13 @@
   </div>
 </div>
 
-{{-- SWEETALERT --}}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-document.getElementById('btnBayar').addEventListener('click', function(){
-    // tampilkan modal COD
+document.getElementById('btnBayar')?.addEventListener('click', function(){
     var codModal = new bootstrap.Modal(document.getElementById('codModal'));
     codModal.show();
 
-    // tombol Selesai modal
-    document.getElementById('okCOD').addEventListener('click', function(){
+    document.getElementById('okCOD')?.addEventListener('click', function(){
         fetch("{{ route('pesananuser.lihat', $pesanan->id) }}", {
             method: 'POST',
             headers: {
@@ -99,7 +107,6 @@ document.getElementById('btnBayar').addEventListener('click', function(){
         .then(res => res.json())
         .then(data => {
             if(data.success){
-                // SweetAlert sukses
                 Swal.fire({
                     icon: 'success',
                     title: 'Pesanan Berhasil!',
@@ -110,7 +117,8 @@ document.getElementById('btnBayar').addEventListener('click', function(){
                 });
             }
         });
-    }, { once: true }); // hanya sekali listener
+    }, { once: true });
 });
 </script>
+
 @endsection

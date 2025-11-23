@@ -63,23 +63,33 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('/detailproduk/{produk}', [tokoController::class, 'detail'])->name('detail');
 
     // Pesanan User
-    Route::prefix('pesanan')->group(function () {
-        Route::get('/', [PesananController::class,'index'])->name('pesanan.index');
-        Route::post('/beli/{produk_id}', [PesananController::class,'beli'])->name('pesanan.beli');
-        Route::post('/update-item/{item_id}', [PesananController::class,'updateItem'])->name('pesanan.updateItem');
-        Route::post('/checkout', [PesananController::class,'checkout'])->name('pesanan.checkout');
-        Route::get('/pembayaran/{pesanan_id}', [PesananController::class,'pembayaran'])->name('pesanan.pembayaran');
-        Route::post('/bayar/{pesanan_id}', [PesananController::class,'bayar'])->name('pesanan.bayar');
-        Route::get('/lihatPengiriman', [PesananController::class,'lihatPengiriman'])->name('pesananuser.lihat');
-        Route::post('/pesanan/terima/{id}', [PesananController::class,'terimaPesanan'])->name('pesanan.terima');
-        Route::delete('/pesanan/item/{id}', [PesananController::class, 'destroyItem'])->name('pesananitem.destroy');
-        // Tambah ke keranjang (menyimpan banyak produk sebelum checkout)
-        Route::post('/keranjang/tambah/{produk}', [PesananController::class, 'tambahKeranjang'])->name('pesanan.keranjang.tambah');
-        Route::get('/keranjang', [PesananController::class, 'lihatKeranjang'])->name('pesanan.keranjang');
-        Route::post('/keranjang/checkout/{pesanan}', [PesananController::class, 'bayarKeranjang'])->name('pesanan.keranjang.checkout');
+// Pesanan User
+Route::prefix('pesanan')->group(function () {
+    Route::get('/', [PesananController::class,'index'])->name('pesanan.index');
+    Route::post('/beli/{produk_id}', [PesananController::class,'beli'])->name('pesanan.beli');
+    Route::post('/update-item/{item_id}', [PesananController::class,'updateItem'])->name('pesanan.updateItem');
+    Route::post('/checkout', [PesananController::class,'checkout'])->name('pesanan.checkout');
+    Route::get('/pembayaran/{pesanan_id}', [PesananController::class,'pembayaran'])->name('pesanan.pembayaran');
+    Route::post('/bayar/{pesanan_id}', [PesananController::class,'bayar'])->name('pesanan.bayar');
+    Route::get('/lihatPengiriman', [PesananController::class,'lihatPengiriman'])->name('pesananuser.lihat');
+    Route::post('/terima/{id}', [PesananController::class,'terimaPesanan'])->name('pesanan.terima');
+    Route::get('/preview/{id}', [PesananController::class, 'preview'])->name('pesanan.preview');
 
+    // perbaikan: hapus "pesanan/" karena sudah dalam prefix
+    Route::delete('/item/{id}', [PesananController::class, 'destroyItem'])->name('pesananitem.destroy');
 
-    });
+    // Keranjang
+    Route::post('/keranjang/tambah/{produk}', [PesananController::class, 'tambahKeranjang'])->name('pesanan.keranjang.tambah');
+    Route::get('/keranjang', [PesananController::class, 'lihatKeranjang'])->name('pesanan.keranjang');
+    Route::post('/keranjang/checkout/{pesanan}', [PesananController::class, 'bayarKeranjang'])->name('pesanan.keranjang.checkout');
+
+    // perbaikan: hapus "pesanan/" karena double
+    Route::post('/beli-sekarang', [PesananController::class, 'beliSekarang'])->name('pesanan.beliSekarang');
+    Route::get('/pesanan/konfirmasi', [PesananController::class, 'konfirmasi'])->name('pesanan.konfirmasi');
+    
+
+});
+
 
     // Cerita User
     Route::prefix('user/cerita')->group(function () {

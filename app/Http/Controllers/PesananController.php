@@ -19,53 +19,56 @@ class PesananController extends Controller
 
     // Tambah produk ke "keranjang"
     // Beli Sekarang → hanya satu produk 
-    public function beli(Request $request, $produk_id) { $produk = Produk::findOrFail($produk_id); 
-        $jumlah = $request->jumlah ?? 1; 
-        // Hapus semua pesanan aktif sebelumnya (status 'dikemas') 
-        Pesanan::where('user_id', Auth::id()) 
-            ->where('status', 'dikemas') 
-            ->delete(); 
-            
-        // Buat pesanan baru 
-        $pesanan = Pesanan::create([ 
-            'user_id' => Auth::id(), 
-            'status' => 'dikemas', 
-            'total' => $produk->harga * $jumlah, 'ongkir' => 0, ]); 
-        
-        // Tambah item produk 
-        PesananItem::create([ 
-            'pesanan_id' => $pesanan->id, 
-            'produk_id' => $produk->id, 
-            'jumlah' => $jumlah, 
-            'harga' => $produk->harga ]); 
-            return redirect()->route('pesanan.index')->with('success', 'Produk berhasil dipesan.'); }
+    public function beli(Request $request, $produk_id)
+{
+    $produk = Produk::findOrFail($produk_id);
+    $jumlah = $request->jumlah ?? 1;
+
+    // Buat pesanan baru khusus beli sekarang (tidak menghapus yang lain)
+    $pesanan = Pesanan::create([
+        'user_id' => Auth::id(),
+        'status' => 'dikemas', // status sementara sampai user checkout
+        'total' => $produk->harga * $jumlah,
+        'ongkir' => 0,
+    ]);
+
+    // Tambahkan item
+    PesananItem::create([
+        'pesanan_id' => $pesanan->id,
+        'produk_id' => $produk->id,
+        'jumlah' => $jumlah,
+        'harga' => $produk->harga,
+    ]);
+
+    return redirect()->route('pesanan.index');
+}
 
     // Halaman daftar pesanan (keranjang)
     // Halaman daftar pesanan (daftar pesanan)
 public function index()
 {
-    $user = Auth::user(); // ambil data user
+    $user = Auth::user();
 
+    // ambil pesanan "dikemas" paling baru
     $pesanan = Pesanan::with('items.produk.penjual')
         ->where('user_id', $user->id)
         ->where('status', 'dikemas')
+        ->latest()
         ->first();
 
     if ($pesanan) {
-        // isi alamat dari profil user
         $pesanan->provinsi = $user->provinsi ?? $pesanan->provinsi;
         $pesanan->kota = $user->kota ?? $pesanan->kota;
         $pesanan->alamat = $user->alamat ?? $pesanan->alamat;
 
-        // hitung ongkir otomatis dari profil user
         if ($pesanan->items->isNotEmpty()) {
             $produkPertama = $pesanan->items->first()->produk;
             $kotaToko = $produkPertama->penjual->kota ?? null;
             $kotaPembeli = $pesanan->kota ?? null;
 
             $ongkir = Ongkir::where('dari_kota', $kotaToko)
-                        ->where('ke_kota', $kotaPembeli)
-                        ->value('ongkir') ?? 0;
+                            ->where('ke_kota', $kotaPembeli)
+                            ->value('ongkir') ?? 0;
 
             $pesanan->ongkir = $ongkir;
             $pesanan->total = $pesanan->items->sum(fn($i)=> $i->harga * $i->jumlah) + $ongkir;
@@ -74,6 +77,7 @@ public function index()
 
     return view('dashboard.pesanan', compact('pesanan', 'user'));
 }
+
 
 
     // Update jumlah item
@@ -116,6 +120,7 @@ public function checkout(Request $request)
     $pesanan->ongkir = $ongkir;
     $pesanan->total = $pesanan->items->sum(fn($i)=> $i->harga * $i->jumlah) + $ongkir;
     $pesanan->save();
+    
 
     return redirect()->route('pesananuser.lihat')->with('success', 'Pesanan berhasil dibuat.');
 }
@@ -132,53 +137,105 @@ public function checkout(Request $request)
 
     // Konfirmasi pesanan (COD)
     // Checkout / Bayar COD otomatis dari profil
-public function bayar(Request $request, $pesanan_id)
+// public function bayar(Request $request, $pesanan_id)
+// {
+//     $user = Auth::user();
+//     $pesanan = Pesanan::with('items.produk.penjual')
+//         ->where('user_id', $user->id)
+//         ->where('status', 'dikemas')
+//         ->findOrFail($pesanan_id);
+
+//     if ($pesanan->items->isEmpty()) {
+//         return back()->with('error', 'Pesanan tidak memiliki item.');
+//     }
+
+//     // alamat & kota otomatis dari profil
+//     $pesanan->provinsi = $user->provinsi;
+//     $pesanan->kota = $user->kota;
+//     $pesanan->alamat = $user->alamat;
+
+//     // ongkir otomatis
+//     $produkPertama = $pesanan->items->first()->produk;
+//     $kotaToko = $produkPertama->penjual->kota;
+//     $kotaPembeli = $pesanan->kota;
+
+//     $ongkir = Ongkir::where('dari_kota', $kotaToko)
+//                 ->where('ke_kota', $kotaPembeli)
+//                 ->value('ongkir') ?? 0;
+
+//     $pesanan->ongkir = $ongkir;
+//     $pesanan->total = $pesanan->items->sum(fn($i)=> $i->harga * $i->jumlah) + $ongkir;
+//     $pesanan->status = 'dikemas'; // tetap COD
+//     $pesanan->save();
+
+//     return redirect()->route('pesanan.pembayaran', $pesanan->id)
+//         ->with('success', 'Pesanan berhasil dibuat (COD).');
+// }
+public function bayar(Request $request, $id)
 {
-    $user = Auth::user();
-    $pesanan = Pesanan::with('items.produk.penjual')
-        ->where('user_id', $user->id)
-        ->where('status', 'dikemas')
-        ->findOrFail($pesanan_id);
+    $pesanan = Pesanan::where('id', $id)
+                ->where('user_id', Auth::id())
+                ->firstOrFail();
 
-    if ($pesanan->items->isEmpty()) {
-        return back()->with('error', 'Pesanan tidak memiliki item.');
-    }
-
-    // alamat & kota otomatis dari profil
-    $pesanan->provinsi = $user->provinsi;
-    $pesanan->kota = $user->kota;
-    $pesanan->alamat = $user->alamat;
-
-    // ongkir otomatis
-    $produkPertama = $pesanan->items->first()->produk;
-    $kotaToko = $produkPertama->penjual->kota;
-    $kotaPembeli = $pesanan->kota;
-
-    $ongkir = Ongkir::where('dari_kota', $kotaToko)
-                ->where('ke_kota', $kotaPembeli)
-                ->value('ongkir') ?? 0;
-
-    $pesanan->ongkir = $ongkir;
-    $pesanan->total = $pesanan->items->sum(fn($i)=> $i->harga * $i->jumlah) + $ongkir;
-    $pesanan->status = 'dikemas'; // tetap COD
+    // Ubah status menjadi dikirim
+    $pesanan->status = 'dikemas';
     $pesanan->save();
 
-    return redirect()->route('pesanan.pembayaran', $pesanan->id)
-        ->with('success', 'Pesanan berhasil dibuat (COD).');
+    // Buat keranjang baru untuk user
+    Pesanan::create([
+        'user_id' => Auth::id(),
+        'status' => 'keranjang'
+    ]);
+
+    return response()->json(['success' => true]);
+}
+public function beliSekarang(Request $request)
+{
+    $ids = $request->checkout ?? [];
+
+    if (empty($ids)) {
+        return back()->with('error', 'Pilih minimal 1 item.');
+    }
+
+    $items = PesananItem::whereIn('id', $ids)->get();
+
+    // Ambil pesanan yang berisi item-item ini
+    $pesananId = $items->first()->pesanan_id ?? null;
+    $pesanan = Pesanan::with('items.produk')->find($pesananId);
+
+    return view('dashboard.konfirmasi', compact('pesanan'));
 }
 
 
 
+
+
+
+
+
+
     // Lihat status pengiriman
+    // public function lihatPengiriman()
+    // {
+    //     $pesanan = Pesanan::with('items.produk')
+    //         ->where('user_id', Auth::id())
+    //         ->whereIn('status', ['menunggu_konfirmasi', 'dikemas', 'dikirim', 'selesai'])
+    //         ->get();
+
+    //     return view('dashboard.lihatpengiriman', compact('pesanan'));
+    // }
+
     public function lihatPengiriman()
     {
-        $pesanan = Pesanan::with('items.produk')
-            ->where('user_id', Auth::id())
-            ->whereIn('status', ['menunggu_konfirmasi', 'dikemas', 'dikirim', 'selesai'])
-            ->get();
+        $pesanan = Pesanan::where('user_id', Auth::id())
+        ->whereIn('status', ['dikemas', 'dikirim', 'selesai'])
+        ->with('items.produk')
+        ->orderBy('created_at', 'DESC')
+        ->get();
 
         return view('dashboard.lihatpengiriman', compact('pesanan'));
     }
+
 
     // Tandai pesanan diterima
     public function terimaPesanan($id)
@@ -308,6 +365,18 @@ public function bayarKeranjang(Request $request, Pesanan $pesanan)
     $pesanan->save();
 
     return redirect()->route('pesananuser.lihat')->with('success', 'Pesanan berhasil dibuat (COD).');
+}
+    public function lihat()
+{
+    $pesanan = Pesanan::with(['items.produk'])
+        ->whereHas('items.produk.penjual', function ($q) {
+            $q->where('user_id', auth()->id());
+        })
+        ->whereIn('status', ['dikemas','dikirim','selesai'])
+        ->orderByDesc('id')
+        ->get();
+
+    return view('penjual.lihatpesanan', compact('pesanan'));
 }
 
 
