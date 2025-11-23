@@ -37,7 +37,6 @@
     <h2 class="text-orange fw-bold mb-4">Keranjang Belanja</h2>
 
     @if(isset($pesanan) && $pesanan->items->count() > 0)
-
     <form action="{{ route('pesanan.beliSekarang') }}" method="POST">
         @csrf
 
@@ -95,7 +94,6 @@
         </button>
 
     </form>
-
     @else
         <p class="text-center text-muted py-4">Keranjang masih kosong.</p>
     @endif

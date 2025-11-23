@@ -71,7 +71,7 @@
             </div>
 
             {{-- Tombol Checkout / Pesan --}}
-            <button id="btnBayar" class="btn btn-orange w-100 fw-semibold">Checkout</button>
+<button id="btnBayar" data-id="{{ $pesanan->id ?? '' }}" class="btn btn-orange w-100 fw-semibold">Checkout</button>
         </div>
     @else
         <p class="text-center text-muted py-4">Belum ada pesanan.</p>
@@ -90,32 +90,67 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
-document.getElementById('btnBayar')?.addEventListener('click', function(){
+document.getElementById('btnBayar').addEventListener('click', function() {
+    var pesananId = this.dataset.id || null;
+
+    // Tampilkan modal COD
     var codModal = new bootstrap.Modal(document.getElementById('codModal'));
     codModal.show();
 
-    document.getElementById('okCOD')?.addEventListener('click', function(){
-    fetch("/pesanan/bayar/{{ $pesanan->id }}", {
-    method: "POST",
-    headers: { "X-CSRF-TOKEN": "{{ csrf_token() }}" }
-})
+    // Event untuk tombol Selesai modal
+    document.getElementById('okCOD').addEventListener('click', function() {
+        let url = pesananId ? `/pesanan/bayar/${pesananId}` : `/pesanan/bayar`;
 
+        // Body hanya dikirim kalau beli sekarang (session)
+        let bodyData = pesananId ? null : {
+            produk_id: "{{ $pesanan->items->first()->produk->id }}",
+            harga: "{{ $pesanan->items->first()->harga }}",
+            jumlah: "{{ $pesanan->items->first()->jumlah }}"
+        };
+
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+            },
+            body: bodyData ? JSON.stringify(bodyData) : null
+        })
         .then(res => res.json())
         .then(data => {
             if(data.success){
                 Swal.fire({
                     icon: 'success',
                     title: 'Pesanan Berhasil!',
-                    text: 'Pesanan Anda telah dibuat (COD).',
+                    text: 'Pesanan Anda telah dikonfirmasi (COD).',
                     confirmButtonColor: '#f77f00',
                 }).then(() => {
                     window.location.href = "{{ route('pesananuser.lihat') }}";
                 });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal!',
+                    text: data.message || 'Terjadi kesalahan.',
+                    confirmButtonColor: '#f77f00',
+                });
             }
+        })
+        .catch(err => {
+            console.error(err);
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                text: 'Terjadi kesalahan saat memproses pesanan.',
+                confirmButtonColor: '#f77f00',
+            });
         });
-    }, { once: true });
+
+    }, { once: true }); // pastikan hanya sekali
 });
+
 </script>
 
 @endsection

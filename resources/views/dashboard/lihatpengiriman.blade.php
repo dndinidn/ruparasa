@@ -14,7 +14,7 @@
         <div class="card-header fw-bold">
             Pesanan #{{ $p->id }}
             <span class="float-end">
-                Total: Rp {{ number_format($p->items->sum(fn($i) => $i->harga * $i->jumlah) + 10000,0,',','.') }}
+                Total: Rp {{ number_format($p->items->sum(fn($i) => $i->harga * $i->jumlah) + 15000,0,',','.') }}
             </span>
         </div>
         <div class="card-body">

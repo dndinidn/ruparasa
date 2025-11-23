@@ -122,16 +122,14 @@ public function bayar(Request $request, $id = null)
 {
     $user = Auth::user();
 
-    // ================================
-    // 1) BAYAR DARI BELI SEKARANG
-    // ================================
     if ($id === null) {
-
         if (!session()->has('beli_sekarang')) {
             return response()->json(['success' => false, 'message' => 'Session kosong']);
         }
 
         $data = session('beli_sekarang');
+
+        $ongkir = 15000; // Ongkir fix
 
         // Buat pesanan baru
         $pesanan = Pesanan::create([
@@ -140,8 +138,8 @@ public function bayar(Request $request, $id = null)
             'provinsi' => $user->provinsi,
             'kota'     => $user->kota,
             'alamat'   => $user->alamat,
-            'ongkir'   => 0,
-            'total'    => $data['total'],
+            'ongkir'   => $ongkir,
+            'total'    => $data['total'] + $ongkir,
         ]);
 
         // Tambahkan item
@@ -152,35 +150,55 @@ public function bayar(Request $request, $id = null)
             'harga'      => $data['harga'],
         ]);
 
-        // Hapus session
         session()->forget('beli_sekarang');
 
         return response()->json([
             'success' => true,
-            'pesanan_id' => $pesanan->id
+            'pesanan_id' => $pesanan->id,
+            'ongkir' => $ongkir,
+            'total' => $pesanan->total
         ]);
     }
 
+    // Kalau bayar dari keranjang
+    // ...
+
+
     // ================================
-    // 2) BAYAR DARI HALAMAN PESANAN / KERANJANG
+    // 2) BAYAR DARI KERANJANG
     // ================================
-    $pesanan = Pesanan::where('id', $id)
+    $pesanan = Pesanan::with('items.produk')
+        ->where('id', $id)
         ->where('user_id', $user->id)
         ->firstOrFail();
 
+    if ($pesanan->items->isEmpty()) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Pesanan tidak memiliki item'
+        ]);
+    }
+
+    // Ongkir fix 15k
+    $ongkir = 15000;
+
+    $pesanan->ongkir = $ongkir;
+    $pesanan->total = $pesanan->items->sum(fn($i) => $i->harga * $i->jumlah) + $ongkir;
     $pesanan->status = 'dikemas';
     $pesanan->save();
 
-    return response()->json(['success' => true, 'pesanan_id' => $pesanan->id]);
+    return response()->json([
+        'success' => true,
+        'pesanan_id' => $pesanan->id
+    ]);
 }
-
 
 
     // Halaman pembayaran (hanya info COD)
     public function pembayaran($pesanan_id)
     {
         $pesanan = Pesanan::with('items.produk')->findOrFail($pesanan_id);
-        return view('dashboard.pembayaran', compact('pesanan'));
+        return view('dashboard.lihatpengiriman', compact('pesanan'));
     }
 
     // Konfirmasi pesanan (COD)
@@ -219,20 +237,32 @@ public function bayar(Request $request, $id = null)
 //     return redirect()->route('pesanan.pembayaran', $pesanan->id)
 //         ->with('success', 'Pesanan berhasil dibuat (COD).');
 // }
-
 public function beliSekarang(Request $request)
 {
-    $ids = $request->checkout ?? [];
+    $user = auth()->user();
+    $checkoutIds = $request->input('checkout', []); // array item yang dicentang
 
-    if (empty($ids)) {
+    if (empty($checkoutIds)) {
         return back()->with('error', 'Pilih minimal 1 item.');
     }
 
-    $items = PesananItem::whereIn('id', $ids)->get();
+    // Ambil pesanan user dengan status 'dikemas' (sesuai yang kamu simpan di keranjang)
+    $pesanan = Pesanan::with('items.produk')
+                ->where('user_id', $user->id)
+                ->where('status', 'dikemas')
+                ->first();
 
-    // Ambil pesanan yang berisi item-item ini
-    $pesananId = $items->first()->pesanan_id ?? null;
-    $pesanan = Pesanan::with('items.produk')->find($pesananId);
+    if (!$pesanan) {
+        return back()->with('error', 'Keranjang kosong.');
+    }
+
+    // Filter items sesuai checkbox
+    $pesanan->items = $pesanan->items->whereIn('id', $checkoutIds);
+
+    // Pastikan $pesanan->items tidak kosong
+    if ($pesanan->items->isEmpty()) {
+        return back()->with('error', 'Item yang dipilih tidak ada.');
+    }
 
     return view('dashboard.konfirmasi', compact('pesanan'));
 }

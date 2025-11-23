@@ -86,8 +86,8 @@ Route::prefix('pesanan')->group(function () {
     Route::post('/keranjang/checkout/{pesanan}', [PesananController::class, 'bayarKeranjang'])->name('pesanan.keranjang.checkout');
 
     // perbaikan: hapus "pesanan/" karena double
-    Route::post('/beli-sekarang', [PesananController::class, 'beliSekarang'])->name('pesanan.beliSekarang');
-    Route::get('/pesanan/konfirmasi', [PesananController::class, 'konfirmasi'])->name('pesanan.konfirmasi');
+Route::post('/beli-sekarang', [PesananController::class, 'beliSekarang'])->name('pesanan.beliSekarang');
+Route::get('/konfirmasi', [PesananController::class, 'konfirmasi'])->name('pesanan.konfirmasi');
 
 
 });

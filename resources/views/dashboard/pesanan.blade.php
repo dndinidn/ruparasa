@@ -60,11 +60,16 @@
 
             {{-- Ringkasan --}}
             <div class="mt-3 mb-3">
+@php
+    $ongkir = 15000;
+@endphp
                 <p><strong>Alamat:</strong> {{ $pesanan->alamat }}, {{ $pesanan->kota }}, {{ $pesanan->provinsi }}</p>
-                <p><strong>Sub total pesanan:</strong> Rp {{ number_format($subtotal,0,',','.') }}</p>
-                <p><strong>Ongkir:</strong> Rp {{ number_format($pesanan->ongkir ?? 0,0,',','.') }}</p>
-                <p><strong>Total:</strong> Rp {{ number_format($pesanan->total,0,',','.') }}</p>
-            </div>
+
+<p><strong>Sub total pesanan:</strong> Rp {{ number_format($subtotal + $ongkir,0,',','.') }}</p>
+<p><strong>Ongkir:</strong> Rp {{ number_format($ongkir,0,',','.') }}</p>
+<p><strong>Total:</strong> Rp {{ number_format($subtotal + $ongkir,0,',','.') }}</p>
+
+                  </div>
 
             <button
                 id="btnBayar"
@@ -103,13 +108,20 @@ document.getElementById('btnBayar').addEventListener('click', function() {
 
     document.getElementById('okCOD').addEventListener('click', function() {
 
-        fetch("{{ route('pesananuser.bayar') }}", {
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': "{{ csrf_token() }}",
-                'Content-Type': 'application/json'
-            }
-        })
+     fetch("{{ route('pesananuser.bayar') }}", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+    },
+   body: JSON.stringify({
+    produk_id: "{{ $item->produk->id }}",
+    harga: "{{ $item->harga }}",
+    jumlah: "{{ $item->jumlah }}"
+})
+
+})
+
         .then(res => res.json())
         .then(data => {
             if(data.success){
