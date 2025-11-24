@@ -64,10 +64,11 @@
 
             {{-- Ringkasan --}}
             <div class="mt-3 mb-3">
-                <p><strong>Alamat:</strong> {{ $pesanan->alamat }}, {{ $pesanan->kota }}, {{ $pesanan->provinsi }}</p>
-                <p><strong>Sub total pesanan:</strong> Rp {{ number_format($pesanan->items->sum(fn($i)=> $i->harga * $i->jumlah),0,',','.') }}</p>
-                <p><strong>Ongkir:</strong> Rp {{ number_format($pesanan->ongkir ?? 0,0,',','.') }}</p>
-                <p><strong>Total:</strong> Rp {{ number_format($pesanan->total ?? $pesanan->items->sum(fn($i)=> $i->harga * $i->jumlah),0,',','.') }}</p>
+            <p><strong>Alamat:</strong> {{ $alamat }}, {{ $kota }}, {{ $provinsi }}</p>
+<p><strong>Sub total pesanan:</strong> Rp {{ number_format($subtotal,0,',','.') }}</p>
+<p><strong>Ongkir:</strong> Rp {{ number_format($ongkir,0,',','.') }}</p>
+<p class="text-lg font-bold"><strong>Total:</strong> Rp {{ number_format($total,0,',','.') }}</p>
+
             </div>
 
             {{-- Tombol Checkout / Pesan --}}

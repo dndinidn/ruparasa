@@ -122,14 +122,15 @@ public function bayar(Request $request, $id = null)
 {
     $user = Auth::user();
 
+    // ================================
+    // 1) BAYAR DARI BELI SEKARANG
+    // ================================
     if ($id === null) {
         if (!session()->has('beli_sekarang')) {
             return response()->json(['success' => false, 'message' => 'Session kosong']);
         }
 
         $data = session('beli_sekarang');
-
-        $ongkir = 15000; // Ongkir fix
 
         // Buat pesanan baru
         $pesanan = Pesanan::create([
@@ -138,8 +139,8 @@ public function bayar(Request $request, $id = null)
             'provinsi' => $user->provinsi,
             'kota'     => $user->kota,
             'alamat'   => $user->alamat,
-            'ongkir'   => $ongkir,
-            'total'    => $data['total'] + $ongkir,
+            'ongkir'   => 0,
+            'total'    => $data['total'],
         ]);
 
         // Tambahkan item
@@ -150,40 +151,38 @@ public function bayar(Request $request, $id = null)
             'harga'      => $data['harga'],
         ]);
 
+        // Hapus session
         session()->forget('beli_sekarang');
 
         return response()->json([
             'success' => true,
-            'pesanan_id' => $pesanan->id,
-            'ongkir' => $ongkir,
-            'total' => $pesanan->total
+            'pesanan_id' => $pesanan->id
         ]);
     }
-
-    // Kalau bayar dari keranjang
-    // ...
-
 
     // ================================
     // 2) BAYAR DARI KERANJANG
     // ================================
-    $pesanan = Pesanan::with('items.produk')
+    $pesanan = Pesanan::with('items.produk.penjual')
         ->where('id', $id)
         ->where('user_id', $user->id)
         ->firstOrFail();
 
     if ($pesanan->items->isEmpty()) {
-        return response()->json([
-            'success' => false,
-            'message' => 'Pesanan tidak memiliki item'
-        ]);
+        return response()->json(['success' => false, 'message' => 'Pesanan tidak memiliki item']);
     }
 
-    // Ongkir fix 15k
-    $ongkir = 15000;
+    // Hitung ongkir dari produk pertama
+    $produkPertama = $pesanan->items->first()->produk;
+    $kotaToko = $produkPertama->penjual->kota;
+    $kotaPembeli = $user->kota;
+
+    $ongkir = Ongkir::where('dari_kota', $kotaToko)
+        ->where('ke_kota', $kotaPembeli)
+        ->value('ongkir') ?? 0;
 
     $pesanan->ongkir = $ongkir;
-    $pesanan->total = $pesanan->items->sum(fn($i) => $i->harga * $i->jumlah) + $ongkir;
+    $pesanan->total = $pesanan->items->sum(fn($i)=> $i->harga * $i->jumlah) + $ongkir;
     $pesanan->status = 'dikemas';
     $pesanan->save();
 
@@ -246,7 +245,7 @@ public function beliSekarang(Request $request)
         return back()->with('error', 'Pilih minimal 1 item.');
     }
 
-    // Ambil pesanan user dengan status 'dikemas' (sesuai yang kamu simpan di keranjang)
+    // Ambil pesanan user dengan status 'dikemas'
     $pesanan = Pesanan::with('items.produk')
                 ->where('user_id', $user->id)
                 ->where('status', 'dikemas')
@@ -259,12 +258,27 @@ public function beliSekarang(Request $request)
     // Filter items sesuai checkbox
     $pesanan->items = $pesanan->items->whereIn('id', $checkoutIds);
 
-    // Pastikan $pesanan->items tidak kosong
     if ($pesanan->items->isEmpty()) {
         return back()->with('error', 'Item yang dipilih tidak ada.');
     }
 
-    return view('dashboard.konfirmasi', compact('pesanan'));
+    // Hitung subtotal
+    $subtotal = $pesanan->items->sum(fn($i) => $i->harga * $i->jumlah);
+
+    // Ongkir fix 15k (bisa diganti sesuai kebutuhan)
+    $ongkir = 15000;
+
+    // Total
+    $total = $subtotal + $ongkir;
+
+    // Ambil alamat user
+    $alamat = $user->alamat;
+    $kota   = $user->kota;
+    $provinsi = $user->provinsi;
+
+    return view('dashboard.konfirmasi', compact(
+        'pesanan', 'subtotal', 'ongkir', 'total', 'alamat', 'kota', 'provinsi'
+    ));
 }
 
 
