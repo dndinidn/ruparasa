@@ -59,8 +59,8 @@
                         <td>#{{ $p->id }}</td>
 
                         <td class="text-right">{{ number_format($p->total,0,',','.') }}</td>
-                        <td class="text-right">{{ number_format($p->ongkir,0,',','.') }}</td>
-
+                        {{-- <td class="text-right">{{ number_format($p->ongkir,0,',','.') }}</td> --}}
+<td class="text-right">Rp 15.000</td>
                         <td>
                             @if($p->status == 'menunggu_konfirmasi')
                                 <span class="badge badge-secondary">Menunggu Konfirmasi</span>
@@ -89,8 +89,8 @@
                         </td>
 
                         <td>
-                            <form action="{{ route('pesanan.hapus', $p->id) }}" 
-                                  method="POST" 
+                            <form action="{{ route('pesanan.hapus', $p->id) }}"
+                                  method="POST"
                                   onsubmit="return confirm('Yakin ingin menghapus pesanan ini?')">
 
                                 @csrf

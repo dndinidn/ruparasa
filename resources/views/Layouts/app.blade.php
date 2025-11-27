@@ -12,9 +12,9 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/home') }}">RupaRasa Sulawesi</a>
-           
-            
-        
+
+
+
         </div>
     </nav>
 

@@ -142,7 +142,7 @@ public function bayar(Request $request, $id = null)
             ]);
         }
 
-        
+
 
         // Buat pesanan baru
         $pesanan = Pesanan::create([
@@ -223,7 +223,7 @@ public function bayar(Request $request, $id = null)
     $produk->stok = $produk->stok - $item->jumlah;
     $produk->save();
 }
-    
+
 
     // Hitung ongkir dari produk pertama
     $produkPertama = $pesananBaru->items->first()->produk;
@@ -389,7 +389,7 @@ public function beliSekarang(Request $request)
     $cari = $request->cari;
 
     $pesanan = Pesanan::with(['items.produk','user'])
-        ->whereHas('items.produk.penjual', fn($q) => 
+        ->whereHas('items.produk.penjual', fn($q) =>
             $q->where('user_id', auth()->id())
         )
         ->whereIn('status', ['menunggu_konfirmasi','dikemas','dikirim'])
@@ -592,7 +592,7 @@ public function lihat(Request $request)
             $q->where('user_id', auth()->id());
         })
         ->whereIn('status', ['dikemas','dikirim','selesai'])
-        
+
         // ==== FITUR PENCARIAN ====
         ->when($cari, function ($query) use ($cari) {
             $query->where(function ($q) use ($cari) {
@@ -610,7 +610,7 @@ public function lihat(Request $request)
             });
         })
         // ==========================
-        
+
         ->orderByDesc('id')
         ->get();
 

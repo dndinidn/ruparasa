@@ -69,8 +69,8 @@
 
                             <td class="text-right">{{ number_format($p->total,0,',','.') }}</td>
 
-                            <td class="text-right">{{ number_format($p->ongkir,0,',','.') }}</td>
-
+                            {{-- <td class="text-right">{{ number_format($p->ongkir,0,',','.') }}</td> --}}
+<td class="text-right">Rp 15.000</td>
                             <td>
                                 @switch($p->status)
                                     @case('dikemas')  <span class="badge badge-warning">Dikemas</span> @break

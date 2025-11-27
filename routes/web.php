@@ -18,7 +18,7 @@ use Illuminate\Http\Request;
 // =====================================================
 Route::get('/home', [Dashboard::class, 'index'])->name('home');
 Route::get('/petaa', [Dashboard::class, 'peta']);
-Route::get('/', fn() => view('welcome'));
+Route::get('/', fn() => view('dashboard.index'));
 Route::get('/sulawesi-map', fn() => view('home'))->name('map.sulawesi');
 Route::get('/informasi/{provinsi}', fn($provinsi) => view("informasi.$provinsi"));
 

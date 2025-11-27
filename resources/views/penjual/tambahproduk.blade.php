@@ -12,8 +12,8 @@
         }
 
         .btn-primary:hover {
-            background-color: #c75822 !important;
-            border-color: #c75822 !important;
+            background-color: #e06629 !important;
+            border-color: #e06629 !important;
         }
 
         .card-header {
@@ -45,13 +45,17 @@
                             <div class="form-group">
                                 <label for="harga">Harga (Rp)</label>
                                 <input type="number" name="harga" id="harga" class="form-control"
-                                       placeholder="Masukkan harga produk" required>
+                                       placeholder="Masukkan harga produk"
+                                       required min="1" step="1"
+                                       oninput="validNumber(this)">
                             </div>
 
                             <div class="form-group">
                                 <label for="stok">Stok</label>
                                 <input type="number" name="stok" id="stok" class="form-control"
-                                       placeholder="Masukkan jumlah stok" required>
+                                       placeholder="Masukkan jumlah stok"
+                                       required min="1" step="1"
+                                       oninput="validNumber(this)">
                             </div>
 
                             <div class="form-group">
@@ -66,7 +70,6 @@
                                 <small class="text-muted">Unggah gambar JPG, JPEG, atau PNG</small>
                             </div>
 
-                            <!-- KATEGORI BARU -->
                             <div class="form-group">
                                 <label for="kategori">Kategori Produk</label>
                                 <select name="kategori" id="kategori" class="form-control" required>
@@ -107,4 +110,18 @@
             </div>
         </div>
     </div>
+
+    {{-- VALIDASI HANYA ANGKA POSITIF --}}
+    <script>
+        function validNumber(input) {
+            // Hilangkan semua karakter non-digit
+            input.value = input.value.replace(/[^0-9]/g, '');
+
+            // Jika angka 0, ubah jadi kosong
+            if (input.value.startsWith("0")) {
+                input.value = input.value.replace(/^0+/, '');
+            }
+        }
+    </script>
+
 @endsection

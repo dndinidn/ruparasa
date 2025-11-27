@@ -44,7 +44,7 @@
         <input type="text" name="cari" class="form-control me-2"
             placeholder="Cari produk..." value="{{ request('cari') }}">
         <button class="btn btn-orange" type="submit">
-            <i class="bi bi-search"></i> Cari
+            <i class="bi bi-search"></i> 
         </button>
     </form>
 </div>
