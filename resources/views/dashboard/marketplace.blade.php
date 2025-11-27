@@ -11,12 +11,15 @@
 
 <section class="py-5">
     <div class="container mt-5">
+<<<<<<< HEAD
         <!-- 🔎 Form Pencarian Toko -->
 <form action="{{ route('toko.index') }}" method="GET" class="mb-4 d-flex justify-content-center">
     <input type="text" name="search" class="form-control w-50 rounded-start" placeholder="Cari toko atau alamat..." value="{{ request('search') }}">
     <button class="btn btn-orange rounded-end ms-1">Cari</button>
 </form>
 
+=======
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
         <h3 class="text-center mb-5 fw-bold text-orange">Daftar Toko</h3>
         <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 justify-content-center gx-4">
             @forelse ($penjual as $pjl)

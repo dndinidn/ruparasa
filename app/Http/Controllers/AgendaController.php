@@ -19,6 +19,7 @@ class AgendaController extends Controller
     /**
      * Halaman admin: list dengan pagination (desc)
      */
+<<<<<<< HEAD
     public function adminIndex(Request $request)
 {
     $query = Agenda::orderBy('tanggal', 'desc');
@@ -34,6 +35,14 @@ class AgendaController extends Controller
 }
 
 
+=======
+    public function adminIndex()
+    {
+        $agendaBudaya = Agenda::orderBy('tanggal', 'desc')->paginate(10);
+        return view('admin.agenda.index', compact('agendaBudaya'));
+    }
+
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
     /**
      * Form tambah (admin)
      */

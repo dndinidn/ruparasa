@@ -1,24 +1,36 @@
 <?php
 
+<<<<<<< HEAD
 use Illuminate\Auth\Events\Verified;
+=======
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
     ProfilController, AdminController, Dashboard, AuthController, ResepController,
     RupaController, tokoController, penjualController, ProdukController, AgendaController,
     pustakaController, VideoController, ArtikelController, BukuController, CeritaController,
     UserController, ProfileController, DashboardController, PesananController,
+<<<<<<< HEAD
     MarketplaceController, PenjualProfileController, ReviewController, PenjualReviewController, PasswordResetController
 };
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 
+=======
+    MarketplaceController, PenjualProfileController
+};
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
 
 // =====================================================
 // 🏠 HALAMAN UTAMA (PUBLIC)
 // =====================================================
 Route::get('/home', [Dashboard::class, 'index'])->name('home');
 Route::get('/petaa', [Dashboard::class, 'peta']);
+<<<<<<< HEAD
 Route::get('/', fn() => view('dashboard.index'));
+=======
+Route::get('/', fn() => view('welcome'));
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
 Route::get('/sulawesi-map', fn() => view('home'))->name('map.sulawesi');
 Route::get('/informasi/{provinsi}', fn($provinsi) => view("informasi.$provinsi"));
 
@@ -28,11 +40,15 @@ Route::get('/informasi/{provinsi}', fn($provinsi) => view("informasi.$provinsi")
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+<<<<<<< HEAD
 Route::get('/forgot-password', [PasswordResetController::class, 'showLinkRequestForm'])->name('password.request');
 Route::post('/forgot-password', [PasswordResetController::class, 'sendResetLinkEmail'])->name('password.email');
 
 Route::get('/reset-password/{token}', [PasswordResetController::class, 'showResetForm'])->name('password.reset');
 Route::post('/reset-password', [PasswordResetController::class, 'reset'])->name('password.update');
+=======
+
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
 // ✅ Register User
 Route::get('/register-user', [AuthController::class, 'showRegisterForm'])->name('register-user');
 Route::post('/register-user', [AuthController::class, 'register'])->name('register-user.store');
@@ -41,6 +57,7 @@ Route::post('/register-user', [AuthController::class, 'register'])->name('regist
 Route::get('/registerpenjual', [AuthController::class, 'registerPenjual'])->name('registerpenjual');
 Route::post('/registerpenjual', [AuthController::class, 'submitRegistrasiPenjual'])->name('registerpenjual.store');
 
+<<<<<<< HEAD
 // Notifikasi setelah login tapi belum verifikasi
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
@@ -61,6 +78,8 @@ Route::post('/email/verification-notification', function (Request $request) {
     return back()->with('message', 'Link verifikasi baru sudah dikirim ke email kamu!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
+=======
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
 // =====================================================
 // 🌏 HALAMAN UMUM (PUBLIC FRONTEND)
 // =====================================================
@@ -83,11 +102,16 @@ Route::prefix('pustaka')->group(function () {
 // =====================================================
 // 👤 USER AREA (ROLE: USER)
 // =====================================================
+<<<<<<< HEAD
 Route::middleware(['auth', 'role:user'],)->group(function () {
+=======
+Route::middleware(['auth', 'role:user'])->group(function () {
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
 
     // Marketplace
     Route::get('/toko', [tokoController::class, 'index'])->name('toko.index');
     Route::get('/produk/{penjual_id}', [tokoController::class, 'produk'])->name('produk');
+<<<<<<< HEAD
     Route::get('/detailproduk/{produk}', [tokoController::class, 'detail'])->name('produk.detail');
     Route::post('/produk/{produk}/review', [ReviewController::class, 'store'])->name('produk.review');
     // Menampilkan form review untuk pesanan
@@ -97,6 +121,9 @@ Route::get('/pesanan/{id}/review', [ReviewController::class, 'reviewForm'])->nam
 Route::post('/pesanan/{id}/review', [ReviewController::class, 'submitReview'])->name('pesanan.submitReview');
 
 
+=======
+    Route::get('/detailproduk/{produk}', [tokoController::class, 'detail'])->name('detail');
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
 
     // Pesanan User
 // Pesanan User
@@ -160,8 +187,11 @@ Route::middleware(['auth', 'role:penjual'])->group(function () {
     Route::put('/penjual/profile/akun', [PenjualProfileController::class, 'updateAkun'])->name('penjual.profile.updateAkun');
     Route::put('/penjual/profile/toko', [PenjualProfileController::class, 'updateToko'])->name('penjual.profile.updateToko');
     Route::post('/penjual/profile/password', [PenjualProfileController::class, 'updatePassword'])->name('penjual.profile.updatePassword');
+<<<<<<< HEAD
     // Route::get('/review', [PenjualReviewController::class, 'index'])->name('penjual.review.index');
     // Route::post('/review/balas/{id}', [PenjualReviewController::class, 'balas'])->name('penjual.review.balas');
+=======
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
 
     // Route::get('/penjual/profil', [PenjualProfileController::class, 'edit'])->name('penjual.editprofil');
     // Route::put('/penjual/profil', [PenjualProfileController::class, 'update'])->name('penjual.profile.update');
@@ -191,6 +221,7 @@ Route::middleware(['auth', 'role:penjual'])->group(function () {
         Route::delete('/pesanan/{id}', [PesananController::class, 'destroy'])->name('pesanan.hapus');
         // Route::post('/pesanan/terima/{id}', [PesananController::class,'terimaPesanan'])->name('pesanan.terima');
     });
+<<<<<<< HEAD
 
     // routes/web.php
    Route::prefix('penjual')->middleware(['auth'])->group(function () {
@@ -200,6 +231,8 @@ Route::middleware(['auth', 'role:penjual'])->group(function () {
 });
 
 
+=======
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
 });
 
 // =====================================================

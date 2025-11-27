@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 class ArtikelController extends Controller
 {
     // Menampilkan semua artikel
+<<<<<<< HEAD
     public function index(Request $request)
 {
     $query = Artikel::orderBy('created_at', 'desc');
@@ -24,6 +25,14 @@ class ArtikelController extends Controller
 }
 
 
+=======
+    public function index()
+    {
+        $artikels = Artikel::orderBy('created_at', 'desc')->get();
+        return view('admin.pustaka.artikel.index', compact('artikels'));
+    }
+
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
     
 
     // Menampilkan form tambah

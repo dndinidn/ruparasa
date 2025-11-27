@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+<!-- resources/views/auth/register.blade.php -->
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,12 +9,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register Akun</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<<<<<<< HEAD
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+=======
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
 
     <style>
         :root {
             --orange: #ff7a2d;
             --orange-dark: #e06629;
+<<<<<<< HEAD
             --font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
         }
 
@@ -147,16 +155,46 @@
             border-radius: 8px;
             margin-top: 15px;
             font-weight: 600;
+=======
+        }
+
+        body {
+            background: url("/images/bg-register.jpg") no-repeat center center fixed;
+            background-size: cover;
+            height: 100vh;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0px 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .form-control {
+            border-radius: 10px;
+        }
+
+        /* Tombol ORANGE */
+        .btn-primary {
+            background: var(--orange) !important;
+            border-color: var(--orange-dark) !important;
+            border-radius: 10px;
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
         }
 
         .btn-primary:hover {
             background: var(--orange-dark) !important;
+<<<<<<< HEAD
+=======
+            border-color: var(--orange) !important;
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
         }
 
         /* Link ORANGE */
         a, a:hover {
             color: var(--orange-dark) !important;
             text-decoration: none;
+<<<<<<< HEAD
             font-weight: 600;
             font-size: 0.9rem;
         }
@@ -266,5 +304,48 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/all.min.js"></script>
+=======
+        }
+    </style>
+</head>
+<body>
+    <div class="d-flex justify-content-center align-items-center vh-100">
+        <div class="col-md-4">
+            <div class="card p-4">
+                <h3 class="text-center mb-4">Register Akun</h3>
+
+                <form method="POST" action="{{ route('register-user.store') }}">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nama Lengkap</label>
+                        <input type="text" name="name" class="form-control" id="name" required autofocus>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Alamat Email</label>
+                        <input type="email" name="email" class="form-control" id="email" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Kata Sandi</label>
+                        <input type="password" name="password" class="form-control" id="password" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password_confirmation" class="form-label">Konfirmasi Kata Sandi</label>
+                        <input type="password" name="password_confirmation" class="form-control" id="password_confirmation" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">Daftar</button>
+                </form>
+
+                <p class="text-center mt-3">
+                    Sudah punya akun?
+                    <a href="{{ route('login') }}">Login</a>
+                </p>
+            </div>
+        </div>
+    </div>
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
 </body>
 </html>

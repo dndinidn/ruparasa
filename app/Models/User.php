@@ -1,15 +1,24 @@
 <?php
 
 namespace App\Models;
+<<<<<<< HEAD
+=======
+
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+<<<<<<< HEAD
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 
 
 class User extends Authenticatable implements MustVerifyEmail
+=======
+
+class User extends Authenticatable
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
 {
     use HasFactory, Notifiable;
 

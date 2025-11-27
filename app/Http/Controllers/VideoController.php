@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 class VideoController extends Controller
 {
     // Tampilkan semua video
+<<<<<<< HEAD
     public function index(Request $request)
 {
     $query = Video::latest();
@@ -24,6 +25,14 @@ class VideoController extends Controller
 }
 
 
+=======
+    public function index()
+    {
+        $videos = Video::latest()->get();
+        return view('admin.pustaka.video.index', compact('videos'));
+    }
+
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
     // Form tambah video
     public function create()
     {

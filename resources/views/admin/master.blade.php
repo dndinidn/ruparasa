@@ -254,7 +254,11 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
+<<<<<<< HEAD
                         <span>Copyright &copy; RupaRasa 2025</span>
+=======
+                        <span>Copyright &copy; Jobsy 2025</span>
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
                     </div>
                 </div>
             </footer>

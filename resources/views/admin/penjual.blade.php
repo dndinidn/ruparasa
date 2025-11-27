@@ -23,6 +23,7 @@
         </div>
 
         <div class="card-body bg-white">
+<<<<<<< HEAD
             <!-- FORM PENCARIAN -->
             <form action="{{ route('admin.penjual') }}" method="GET" class="mb-3">
                 <div class="input-group" style="max-width: 330px;">
@@ -36,6 +37,8 @@
                 </div>
             </form>
             <!-- END FORM -->
+=======
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
             <div class="table-responsive">
 
                 <table class="table table-hover align-middle">

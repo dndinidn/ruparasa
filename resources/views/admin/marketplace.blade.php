@@ -4,6 +4,7 @@
 <div class="container-fluid py-4">
     <h1 class="h3 mb-4" style="color: #e06629;">🏪 Daftar Toko & Penjual di Marketplace</h1>
 
+<<<<<<< HEAD
     {{-- 🔍 FORM PENCARIAN --}}
     <form action="{{ route('admin.marketplace') }}" method="GET" class="mb-3">
         <div class="input-group" style="max-width: 350px;">
@@ -21,6 +22,8 @@
         </div>
     @endif
 
+=======
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
     @if($toko->isEmpty())
         <div class="alert text-white text-center py-3" style="background-color: #e06629;">
             Belum ada toko yang terdaftar.

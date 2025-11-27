@@ -11,9 +11,17 @@
         background-color: #c75822 !important;
         border-color: #c75822 !important;
     }
+<<<<<<< HEAD
     .badge-primary {
         background-color: #e06629 !important;
     }
+=======
+
+    .badge-primary {
+        background-color: #e06629 !important;
+    }
+
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
     .text-primary {
         color: #e06629 !important;
     }
@@ -22,6 +30,7 @@
 <div class="container-fluid">
     <h1 class="h3 mb-4" style="color:#e06629;">Konfirmasi Pesanan</h1>
 
+<<<<<<< HEAD
     {{-- FORM PENCARIAN --}}
     <form action="{{ route('penjual.pesanan') }}" method="GET" class="mb-3">
         <div class="input-group" style="max-width: 340px;">
@@ -32,6 +41,8 @@
         </div>
     </form>
 
+=======
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session('success') }}
@@ -64,6 +75,7 @@
                     @foreach($pesanan as $p)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
+<<<<<<< HEAD
 
                             <td>{{ $p->user->name ?? '-' }}</td>
 
@@ -77,6 +89,25 @@
                                     @case('dikirim') <span class="badge badge-primary">Dikirim</span> @break
                                     @case('selesai') <span class="badge badge-success">Selesai</span> @break
                                     @default <span class="badge badge-secondary">{{ ucfirst($p->status) }}</span>
+=======
+                            <td>{{ $p->user->name ?? '-' }}</td>
+                            <td class="text-right">{{ number_format($p->total,0,',','.') }}</td>
+                            <td class="text-right">{{ number_format($p->ongkir,0,',','.') }}</td>
+
+                            <td>
+                                @switch($p->status)
+                                    @case('dikemas')  
+                                        <span class="badge badge-warning">Dikemas</span> 
+                                    @break
+                                    @case('dikirim') 
+                                        <span class="badge badge-primary">Dikirim</span> 
+                                    @break
+                                    @case('selesai') 
+                                        <span class="badge badge-success">Selesai</span> 
+                                    @break
+                                    @default 
+                                        <span class="badge badge-secondary">{{ ucfirst($p->status) }}</span>
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
                                 @endswitch
                             </td>
 
@@ -89,9 +120,14 @@
                             <td>
                                 <form action="{{ route('penjual.updateStatus', $p->id) }}" method="POST">
                                     @csrf
+<<<<<<< HEAD
 
                                     <select name="status" class="form-control form-control-sm mb-1">
                                         <option value="dikemas"  {{ $p->status == 'dikemas' ? 'selected' : '' }}>Dikemas</option>
+=======
+                                    <select name="status" class="form-control form-control-sm mb-1">
+                                        <option value="dikemas" {{ $p->status == 'dikemas' ? 'selected' : '' }}>Dikemas</option>
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
                                         <option value="dikirim" {{ $p->status == 'dikirim' ? 'selected' : '' }}>Dikirim</option>
                                     </select>
 

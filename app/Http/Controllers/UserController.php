@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     // 🔹 Menampilkan daftar pengguna biasa
+<<<<<<< HEAD
     public function userList(Request $request)
 {
     // Ambil keyword pencarian
@@ -55,4 +56,18 @@ class UserController extends Controller
     return view('admin.penjual', compact('penjuals', 'search'));
 }
 
+=======
+    public function userList()
+    {
+        $users = User::where('role', 'user')->get();
+        return view('admin.user', compact('users'));
+    }
+
+    // 🔹 Menampilkan daftar penjual
+    public function penjualList()
+    {
+        $penjuals = User::where('role', 'penjual')->get();
+        return view('admin.penjual', compact('penjuals'));
+    }
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
 }

@@ -1,4 +1,5 @@
 @extends('dashboard.master')
+<<<<<<< HEAD
 
 @section('konten')
 <div class="header-resep text-center py-5 mb-5">
@@ -170,3 +171,8 @@ document.querySelectorAll('.beli-form, .keranjang-form').forEach(form => {
 }
 </style>
 @endsection
+=======
+@section('konten')
+
+@endsection
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a

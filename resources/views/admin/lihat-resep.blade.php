@@ -12,16 +12,22 @@
     @endif
 
     <div class="card shadow mb-4">
+<<<<<<< HEAD
 
         <!-- HEADER -->
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
             <h6 class="m-0 font-weight-bold text-primary">Data Resep</h6>
 
+=======
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Data Resep</h6>
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
             <a href="{{ route('resep.create') }}" class="btn btn-primary btn-sm">
                 <i class="fas fa-plus"></i> Tambah Resep
             </a>
         </div>
 
+<<<<<<< HEAD
         <!-- FORM SEARCH DI BAWAH TAMBAH RESEP -->
         <div class="p-3">
             <form method="GET" action="{{ route('resep.index') }}">
@@ -40,6 +46,8 @@
             </form>
         </div>
 
+=======
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
         <div class="card-body">
             @if($reseps->isEmpty())
                 <p class="text-center text-muted">Belum ada data resep.</p>
@@ -62,6 +70,7 @@
                                         <a href="{{ route('resep.detail', $resep->id) }}" class="btn btn-warning btn-sm mb-1">
                                             <i class="fas fa-eye"></i> Detail
                                         </a>
+<<<<<<< HEAD
 
                                         <a href="{{ route('resep.edit', $resep->id) }}" class="btn btn-info btn-sm mb-1">
                                             <i class="fas fa-edit"></i> Edit
@@ -70,13 +79,22 @@
                                         <form action="{{ route('resep.destroy', $resep->id) }}" method="POST"
                                               class="d-inline"
                                               onsubmit="return confirm('Yakin ingin menghapus resep ini?')">
+=======
+                                        <a href="{{ route('resep.edit', $resep->id) }}" class="btn btn-info btn-sm mb-1">
+                                            <i class="fas fa-edit"></i> Edit
+                                        </a>
+                                        <form action="{{ route('resep.destroy', $resep->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus resep ini?')">
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm">
                                                 <i class="fas fa-trash"></i> Hapus
                                             </button>
                                         </form>
+<<<<<<< HEAD
                                         
+=======
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
                                     </td>
                                 </tr>
                             @endforeach
@@ -85,7 +103,10 @@
                 </div>
             @endif
         </div>
+<<<<<<< HEAD
 
+=======
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
     </div>
 </div>
 @endsection

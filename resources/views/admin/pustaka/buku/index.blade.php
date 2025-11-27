@@ -2,6 +2,7 @@
 
 @section('konten')
 <div class="container mt-4">
+<<<<<<< HEAD
     <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
         <h2 class="fw-bold mb-2 mb-md-0">📚 Daftar Buku</h2>
 
@@ -17,6 +18,11 @@
             <!-- Tombol Tambah Buku -->
             <a href="{{ route('admin.buku.create') }}" class="btn btn-primary shadow-sm ms-2">Tambah Buku</a>
         </div>
+=======
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">📚 Daftar Buku</h2>
+        <a href="{{ route('admin.buku.create') }}" class="btn btn-primary shadow-sm">Tambah Buku</a>
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
     </div>
 
     @if (session('success'))
@@ -24,7 +30,11 @@
     @endif
 
     @if ($bukus->isEmpty())
+<<<<<<< HEAD
         <div class="alert alert-info text-center">Tidak ada buku ditemukan.</div>
+=======
+        <div class="alert alert-info text-center">Belum ada buku yang ditambahkan.</div>
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
     @else
         <div class="card shadow-sm border-0">
             <div class="card-body p-0">

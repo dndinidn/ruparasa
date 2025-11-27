@@ -2,6 +2,7 @@
 
 @section('konten')
 <div class="container mt-4">
+<<<<<<< HEAD
     <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
         <h2 class="fw-bold text-orange mb-2 mb-md-0">📗 Daftar Cerita</h2>
 
@@ -17,6 +18,11 @@
             <!-- Tombol Tambah Cerita -->
             <a href="{{ route('cerita.create') }}" class="btn btn-orange ms-3">➕ Tambah Cerita</a>
         </div>
+=======
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-orange">📗 Daftar Cerita</h2>
+        <a href="{{ route('cerita.create') }}" class="btn btn-orange">➕ Tambah Cerita</a>
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
     </div>
 
     @if(session('success'))
@@ -33,9 +39,13 @@
             </tr>
         </thead>
         <tbody>
+<<<<<<< HEAD
             @php
                 $filteredCeritas = $ceritas->where('status', 'diterima');
             @endphp
+=======
+            @php $filteredCeritas = $ceritas->where('status', 'diterima'); @endphp
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
 
             @forelse($filteredCeritas as $index => $c)
             <tr>
@@ -55,7 +65,11 @@
             </tr>
             @empty
             <tr>
+<<<<<<< HEAD
                 <td colspan="4" class="text-center text-muted">Tidak ada cerita ditemukan.</td>
+=======
+                <td colspan="4" class="text-center text-muted">Belum ada cerita</td>
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
             </tr>
             @endforelse
         </tbody>
@@ -84,10 +98,13 @@
     background-color: #e06629 !important;
     color: white !important;
 }
+<<<<<<< HEAD
 
 /* Responsive agar search dan tombol tidak menempel di layar kecil */
 @media(max-width: 768px){
     .d-flex.flex-wrap { flex-direction: column !important; gap: 10px; }
 }
+=======
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
 </style>
 @endsection

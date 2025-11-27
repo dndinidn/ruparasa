@@ -75,6 +75,7 @@ public function index()
 
     // Update jumlah item
     public function updateItem(Request $request, $item_id)
+<<<<<<< HEAD
 {
     $item = PesananItem::findOrFail($item_id);
     $item->jumlah = $request->jumlah;
@@ -83,6 +84,15 @@ public function index()
     return response()->json(['success'=>true]);
 }
 
+=======
+    {
+        $item = PesananItem::findOrFail($item_id);
+        $item->jumlah = $request->jumlah;
+        $item->save();
+
+        return redirect()->back();
+    }
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
 
     // Checkout / Bayar COD
 public function checkout(Request $request)
@@ -133,6 +143,7 @@ public function bayar(Request $request, $id = null)
 
         $data = session('beli_sekarang');
 
+<<<<<<< HEAD
          // Cek stok produk
         $produk = Produk::find($data['produk_id']);
         if (!$produk || $produk->stok < $data['jumlah']) {
@@ -144,6 +155,8 @@ public function bayar(Request $request, $id = null)
 
 
 
+=======
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
         // Buat pesanan baru
         $pesanan = Pesanan::create([
             'user_id'  => $user->id,
@@ -163,10 +176,13 @@ public function bayar(Request $request, $id = null)
             'harga'      => $data['harga'],
         ]);
 
+<<<<<<< HEAD
         // **Kurangi stok produk**
     $produk->stok = $produk->stok - $data['jumlah'];
     $produk->save();
 
+=======
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
         // Hapus session
         session()->forget('beli_sekarang');
 
@@ -176,14 +192,22 @@ public function bayar(Request $request, $id = null)
         ]);
     }
 
+<<<<<<< HEAD
    // ================================
     // 2) BAYAR DARI KERANJANG (PERBAIKAN)
     // ================================
     $keranjang = Pesanan::with('items.produk.penjual')
+=======
+    // ================================
+    // 2) BAYAR DARI KERANJANG
+    // ================================
+    $pesanan = Pesanan::with('items.produk.penjual')
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
         ->where('id', $id)
         ->where('user_id', $user->id)
         ->firstOrFail();
 
+<<<<<<< HEAD
     if ($keranjang->items->isEmpty()) {
         return response()->json(['success' => false, 'message' => 'Keranjang kosong']);
     }
@@ -227,6 +251,14 @@ public function bayar(Request $request, $id = null)
 
     // Hitung ongkir dari produk pertama
     $produkPertama = $pesananBaru->items->first()->produk;
+=======
+    if ($pesanan->items->isEmpty()) {
+        return response()->json(['success' => false, 'message' => 'Pesanan tidak memiliki item']);
+    }
+
+    // Hitung ongkir dari produk pertama
+    $produkPertama = $pesanan->items->first()->produk;
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
     $kotaToko = $produkPertama->penjual->kota;
     $kotaPembeli = $user->kota;
 
@@ -234,6 +266,7 @@ public function bayar(Request $request, $id = null)
         ->where('ke_kota', $kotaPembeli)
         ->value('ongkir') ?? 0;
 
+<<<<<<< HEAD
     $pesananBaru->ongkir = $ongkir;
     $pesananBaru->total = $pesananBaru->items->sum(fn($i)=> $i->harga * $i->jumlah) + $ongkir;
     $pesananBaru->save();
@@ -242,6 +275,16 @@ public function bayar(Request $request, $id = null)
     return response()->json([
         'success' => true,
         'pesanan_id' => $pesananBaru->id
+=======
+    $pesanan->ongkir = $ongkir;
+    $pesanan->total = $pesanan->items->sum(fn($i)=> $i->harga * $i->jumlah) + $ongkir;
+    $pesanan->status = 'dikemas';
+    $pesanan->save();
+
+    return response()->json([
+        'success' => true,
+        'pesanan_id' => $pesanan->id
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
     ]);
 }
 
@@ -383,6 +426,7 @@ public function beliSekarang(Request $request)
     // ======================
 
     // Lihat pesanan masuk
+<<<<<<< HEAD
     public function penjualPesanan(Request $request)
 {
     // Ambil kata kunci pencarian
@@ -422,6 +466,18 @@ public function beliSekarang(Request $request)
 }
 
 
+=======
+    public function penjualPesanan()
+    {
+        $pesanan = Pesanan::with(['items.produk','user'])
+            ->whereHas('items.produk.penjual', fn($q) => $q->where('user_id', auth()->id()))
+            ->whereIn('status', ['menunggu_konfirmasi','dikemas','dikirim'])
+            ->orderByDesc('id')
+            ->get();
+
+        return view('penjual.pesanan', compact('pesanan'));
+    }
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
 
     // Lihat pesanan selesai
     public function penjualPesananSelesai()
@@ -504,6 +560,7 @@ public function lihatKeranjang()
 }
 
 // Checkout COD dari keranjang
+<<<<<<< HEAD
 // public function bayarKeranjang(Request $request, Pesanan $pesanan)
 // {
 //     $request->validate([
@@ -587,11 +644,38 @@ public function lihat(Request $request)
     // Ambil kata kunci pencarian
     $cari = $request->cari;
 
+=======
+public function bayarKeranjang(Request $request, Pesanan $pesanan)
+{
+    $request->validate([
+        'kota' => 'required|string'
+    ]);
+
+    // Ambil ongkir dari tabel Ongkir
+    $produkPertama = $pesanan->items->first()->produk;
+    $kotaToko = $produkPertama->penjual->kota;
+    $kotaPembeli = $request->kota;
+
+    $ongkir = Ongkir::where('dari_kota', $kotaToko)
+                ->where('ke_kota', $kotaPembeli)
+                ->value('ongkir') ?? 0;
+
+    $pesanan->ongkir = $ongkir;
+    $pesanan->total = $pesanan->items->sum(fn($i) => $i->harga * $i->jumlah) + $ongkir;
+    $pesanan->status = 'dikemas';
+    $pesanan->save();
+
+    return redirect()->route('pesananuser.lihat')->with('success', 'Pesanan berhasil dibuat (COD).');
+}
+    public function lihat()
+{
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
     $pesanan = Pesanan::with(['items.produk'])
         ->whereHas('items.produk.penjual', function ($q) {
             $q->where('user_id', auth()->id());
         })
         ->whereIn('status', ['dikemas','dikirim','selesai'])
+<<<<<<< HEAD
 
         // ==== FITUR PENCARIAN ====
         ->when($cari, function ($query) use ($cari) {
@@ -611,6 +695,8 @@ public function lihat(Request $request)
         })
         // ==========================
 
+=======
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
         ->orderByDesc('id')
         ->get();
 

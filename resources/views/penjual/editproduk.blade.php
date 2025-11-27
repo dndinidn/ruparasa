@@ -25,13 +25,21 @@
                 <div class="form-group">
                     <label for="harga">Harga (Rp)</label>
                     <input type="number" name="harga" id="harga" class="form-control"
+<<<<<<< HEAD
                         value="{{ old('harga', $produk->harga) }}" required min="1" step="1">
+=======
+                        value="{{ old('harga', $produk->harga) }}" required>
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
                 </div>
 
                 <div class="form-group">
                     <label for="stok">Stok</label>
                     <input type="number" name="stok" id="stok" class="form-control"
+<<<<<<< HEAD
                         value="{{ old('stok', $produk->stok) }}" required min="1" step="1">
+=======
+                        value="{{ old('stok', $produk->stok) }}" required>
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
                 </div>
 
                 <div class="form-group">
@@ -39,6 +47,7 @@
                     <textarea name="deskripsi" id="deskripsi" class="form-control" rows="5" required>{{ old('deskripsi', $produk->deskripsi) }}</textarea>
                 </div>
 
+<<<<<<< HEAD
                 <!-- 🔹 Tambah Kategori -->
                 <div class="form-group">
                     <label for="kategori">Kategori Produk</label>
@@ -73,10 +82,19 @@
                              width="150" class="img-thumbnail mb-2" id="preview-gambar" style="cursor: pointer;">
                     @endif
 
+=======
+                <div class="form-group">
+                    <label for="gambar">Gambar Produk</label><br>
+                    @if ($produk->gambar)
+                        <img src="{{ asset('storage/' . $produk->gambar) }}" alt="{{ $produk->nama_produk }}" 
+                             width="150" class="img-thumbnail mb-2" id="preview-gambar" style="cursor: pointer;">
+                    @endif
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
                     <input type="file" name="gambar" id="gambar" class="form-control-file mt-2">
                     <small class="text-muted">Kosongkan jika tidak ingin mengganti gambar</small>
                 </div>
 
+<<<<<<< HEAD
                 <button type="submit" class="btn btn-success" id="btnSubmit">
                     <i class="fas fa-save"></i> Simpan Perubahan
                 </button>
@@ -85,21 +103,39 @@
                     <i class="fas fa-arrow-left"></i> Kembali
                 </a>
 
+=======
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-save"></i> Simpan Perubahan
+                </button>
+                <a href="{{ route('produk.index') }}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Kembali
+                </a>
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
             </form>
         </div>
     </div>
 </div>
 
+<<<<<<< HEAD
 <!-- 🔹 Modal Popup Gambar -->
 <div id="popupGambar" style="display:none; position:fixed; z-index:1000;
     left:0; top:0; width:100%; height:100%;
     background-color:rgba(0,0,0,0.7); justify-content:center; align-items:center;">
     <span id="closePopup" style="position:absolute; top:30px; right:50px; color:white; font-size:35px; cursor:pointer;">&times;</span>
     <img id="gambarPopup" src="{{ asset('storage/' . $produk->gambar) }}"
+=======
+<!-- 🔹 Modal Popup untuk Gambar -->
+<div id="popupGambar" style="display:none; position:fixed; z-index:1000; 
+    left:0; top:0; width:100%; height:100%; 
+    background-color:rgba(0,0,0,0.7); justify-content:center; align-items:center;">
+    <span id="closePopup" style="position:absolute; top:30px; right:50px; color:white; font-size:35px; cursor:pointer;">&times;</span>
+    <img id="gambarPopup" src="{{ asset('storage/' . $produk->gambar) }}" 
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
          style="max-width:80%; max-height:80%; border-radius:10px;">
 </div>
 
 <script>
+<<<<<<< HEAD
     // ============================
     // 1. VALIDASI HANYA ANGKA BULAT POSITIF
     // ============================
@@ -144,6 +180,8 @@
     // ============================
     // 3. POPUP GAMBAR
     // ============================
+=======
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
     const img = document.getElementById("preview-gambar");
     const modal = document.getElementById("popupGambar");
     const closeBtn = document.getElementById("closePopup");
@@ -162,6 +200,10 @@
         if (event.target === modal) {
             modal.style.display = "none";
         }
+<<<<<<< HEAD
     };
+=======
+    }
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
 </script>
 @endsection

@@ -44,6 +44,7 @@
         </div>
 
         <div class="card-body">
+<<<<<<< HEAD
             <div class="card-body">
 
     {{-- FORM PENCARIAN --}}
@@ -55,6 +56,8 @@
         </button>
     </form>
 
+=======
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
             @if($produks->isEmpty())
                 <p class="text-center text-muted">Belum ada data produk.</p>
             @else
@@ -64,7 +67,10 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama Produk</th>
+<<<<<<< HEAD
                                 <th>Kategori</th>
+=======
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -74,12 +80,15 @@
                                     <td>{{ $index + 1 }}</td>
                                     <td>{{ $produk->nama_produk }}</td>
                                     <td>
+<<<<<<< HEAD
                                         <span class="badge badge-warning p-2" style="font-size: 13px;">
                                             {{ $produk->kategori ?? 'Tidak Ada Kategori' }}
                                         </span>
                                     </td>
 
                                     <td>
+=======
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
                                         <a href="{{ route('produk.show', $produk->id) }}" class="btn btn-success btn-sm">
                                             <i class="fas fa-eye"></i> Detail
                                         </a>
@@ -88,8 +97,12 @@
                                             <i class="fas fa-edit"></i> Edit
                                         </a>
 
+<<<<<<< HEAD
                                         <form action="{{ route('produk.destroy', $produk->id) }}" method="POST"
                                               class="d-inline"
+=======
+                                        <form action="{{ route('produk.destroy', $produk->id) }}" method="POST" class="d-inline"
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
                                               onsubmit="return confirm('Yakin ingin menghapus produk ini?')">
                                             @csrf
                                             @method('DELETE')

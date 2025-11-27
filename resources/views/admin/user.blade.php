@@ -16,7 +16,11 @@
     <!-- Card -->
     <div class="card shadow-lg border-0 rounded-3" style="background:white;">
 
+<<<<<<< HEAD
         <!-- Header -->
+=======
+        <!-- Header CARD = ORANGE TUA -->
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
         <div class="card-header text-white" style="background:#e06629;">
             <h5 class="mb-0">
                 <i class="fas fa-list"></i> Data Pengguna
@@ -24,6 +28,7 @@
         </div>
 
         <div class="card-body bg-white">
+<<<<<<< HEAD
 
             <!-- FORM PENCARIAN -->
             <form action="{{ route('admin.user') }}" method="GET" class="mb-3">
@@ -39,10 +44,16 @@
             </form>
             <!-- END FORM -->
 
+=======
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
             <div class="table-responsive">
 
                 <table class="table table-hover align-middle">
 
+<<<<<<< HEAD
+=======
+                    <!-- THEAD = ORANGE MUDA -->
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
                     <thead class="text-center" style="background:#ffb98a; color:#000;">
                         <tr>
                             <th>#</th>

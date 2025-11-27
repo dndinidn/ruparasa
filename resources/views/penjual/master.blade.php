@@ -139,6 +139,7 @@
                 </div>
             </div>
         </li>
+<<<<<<< HEAD
         <li class="nav-item">
     <a class="nav-link" href="{{ route('penjual.review.index') }}">
         <i class="fas fa-fw fa-star"></i>
@@ -146,6 +147,8 @@
     </a>
 </li>
 
+=======
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
 
     </ul>
     <!-- End Sidebar -->
@@ -201,7 +204,11 @@
         <!-- Footer -->
         <footer class="sticky-footer bg-white">
             <div class="container my-auto text-center">
+<<<<<<< HEAD
                 <span>Copyright &copy; Ruparasa 2025</span>
+=======
+                <span>Copyright &copy; Jobsy 2025</span>
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
             </div>
         </footer>
 

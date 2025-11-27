@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 class BukuController extends Controller
 {
     // Menampilkan semua buku
+<<<<<<< HEAD
     public function index(Request $request)
 {
     $query = Buku::orderBy('created_at', 'desc');
@@ -24,6 +25,14 @@ class BukuController extends Controller
 }
 
 
+=======
+    public function index()
+    {
+        $bukus = Buku::orderBy('created_at', 'desc')->get();
+        return view('admin.pustaka.buku.index', compact('bukus'));
+    }
+
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
     // Form tambah
     public function create()
     {

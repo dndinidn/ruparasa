@@ -4,6 +4,7 @@
 <div class="container mt-4">
     <h2 class="fw-bold mb-4">📄 Lihat Status Cerita</h2>
 
+<<<<<<< HEAD
     <!-- Form Pencarian -->
     <form method="GET" action="{{ route('lihat.status') }}" class="mb-4 d-flex">
         <input type="text" name="keyword" class="form-control me-2" placeholder="Cari judul atau user..." 
@@ -14,6 +15,8 @@
         @endif
     </form>
 
+=======
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
     <table class="table table-bordered table-striped shadow-sm align-middle">
         <thead class="table-orange text-center">
             <tr>
@@ -81,7 +84,10 @@
     </table>
 </div>
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
 <!-- Popup Gambar -->
 <div id="gambarOverlay" class="gambar-overlay" onclick="tutupGambar(event)">
     <span class="close-btn" onclick="tutupGambar(event)">✖</span>

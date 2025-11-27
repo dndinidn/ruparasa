@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 class CeritaController extends Controller
 {
     // ================= ADMIN =================
+<<<<<<< HEAD
     public function index(Request $request)
 {
     $query = Cerita::with('user');
@@ -27,6 +28,14 @@ class CeritaController extends Controller
 }
 
 
+=======
+    public function index()
+    {
+        $ceritas = Cerita::with('user')->get();
+        return view('admin.lihatCerita', compact('ceritas'));
+    }
+
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
 
     public function create()
     {
@@ -126,6 +135,7 @@ class CeritaController extends Controller
         return redirect()->back()->with('success', '✅ Cerita berhasil dihapus.');
     }
 
+<<<<<<< HEAD
    public function lihatStatus(Request $request)
 {
     $query = Cerita::with('user');
@@ -146,6 +156,14 @@ class CeritaController extends Controller
 }
 
 
+=======
+    public function lihatStatus()
+    {
+        $ceritas = Cerita::with('user')->get();
+        return view('admin.lihatStatus', compact('ceritas'));
+    }
+
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
     public function ubahStatus(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [

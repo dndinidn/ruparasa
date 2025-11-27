@@ -12,6 +12,7 @@ class RupaController extends Controller
     /**
      * Menampilkan semua data rupa di halaman admin.
      */
+<<<<<<< HEAD
     public function lihatRupa(Request $request)
 {
     $search = $request->input('search');
@@ -30,6 +31,14 @@ class RupaController extends Controller
 }
 
 
+=======
+    public function LihatRupa()
+    {
+        $rupa = Rupa::all();
+        return view('admin.lihatRupa', compact('rupa'));
+    }
+
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
     /**
      * Menampilkan form tambah data rupa.
      */

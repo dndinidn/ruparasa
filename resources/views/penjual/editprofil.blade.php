@@ -5,9 +5,15 @@
 
 <style>
 :root {
+<<<<<<< HEAD
   --orange: #e06629;
   --orange-dark: #c25520;
   --profile-bg1: #ffffff;
+=======
+  --orange: #e06629;          /* ORANGE utama */
+  --orange-dark: #c25520;     /* ORANGE gelap */
+  --profile-bg1: #ffffff;     /* sidebar tidak biru */
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
   --profile-bg2: #f4f4f4;
   --card-shadow: 0 6px 20px rgba(34,34,34,0.08);
   --radius: 14px;
@@ -28,11 +34,19 @@
   padding: 22px;
 }
 
+<<<<<<< HEAD
+=======
+/* SIDEBAR PROFIL TETAP PUTIH */
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
 .profile {
   text-align: center;
   background: linear-gradient(180deg, var(--profile-bg1) 0%, var(--profile-bg2) 100%);
 }
 
+<<<<<<< HEAD
+=======
+/* AVATAR ORANGE */
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
 .avatar-placeholder {
   width: 110px;
   height: 110px;
@@ -46,6 +60,10 @@
   margin: 20px auto 10px;
 }
 
+<<<<<<< HEAD
+=======
+/* TOMBOL ORANGE */
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
 .btn-orange {
   background: linear-gradient(90deg, var(--orange), var(--orange-dark));
   color: #fff;
@@ -56,10 +74,19 @@
   width: 100%;
 }
 
+<<<<<<< HEAD
 h5, h4, label, .fw-bold {
   color: var(--orange-dark) !important;
 }
 
+=======
+/* TEKS ORANGE */
+h5, h4, label, .fw-bold, .title-blue {
+  color: var(--orange-dark) !important;
+}
+
+/* INPUT */
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
 input, textarea {
   border: 1px solid #f3c0a5 !important;
 }
@@ -69,6 +96,7 @@ input:focus, textarea:focus {
   box-shadow: 0 0 4px rgba(224,102,41,0.5);
 }
 
+<<<<<<< HEAD
 .toggle-box {
   background: #fff7f3;
   border: 1px solid #f3c0a5;
@@ -88,6 +116,14 @@ input:focus, textarea:focus {
 
 .toggle-box:hover {
   background: #ffe9df;
+=======
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 38px;
+  cursor: pointer;
+  color: #777;
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
 }
 </style>
 
@@ -107,6 +143,7 @@ input:focus, textarea:focus {
 
     {{-- FORM EDIT --}}
     <main class="card">
+<<<<<<< HEAD
 
       {{-- TOGGLE 1: DATA AKUN --}}
       <div class="toggle-box" onclick="toggleSection('akun')">
@@ -200,12 +237,94 @@ input:focus, textarea:focus {
           </button>
         </form>
       </div>
+=======
+      <h5 class="fw-bold mb-3">Edit Data Akun</h5>
+
+      {{-- UPDATE DATA AKUN --}}
+      <form action="{{ route('penjual.profile.updateAkun') }}" method="POST">
+        @csrf @method('PUT')
+
+        <div class="mb-3">
+          <label class="form-label">Nama Lengkap</label>
+          <input type="text" name="name" class="form-control"
+                 value="{{ old('name', $user->name) }}" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Email</label>
+          <input type="email" name="email" class="form-control"
+                 value="{{ old('email', $user->email) }}" required>
+        </div>
+
+        <button type="submit" class="btn-orange w-100 mb-4">
+          Simpan Perubahan Akun
+        </button>
+      </form>
+
+      <hr>
+
+      {{-- UPDATE PROFIL TOKO --}}
+      <h5 class="fw-bold mb-3 mt-4">Edit Profil Toko</h5>
+
+      <form action="{{ route('penjual.profile.updateToko') }}" method="POST">
+        @csrf @method('PUT')
+
+        <div class="mb-3">
+          <label class="form-label">Nama Toko</label>
+          <input type="text" name="nama_toko" class="form-control"
+                 value="{{ old('nama_toko', $penjual->nama_toko) }}" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Alamat Toko</label>
+          <input type="text" name="alamat" class="form-control"
+                 value="{{ old('alamat', $penjual->alamat) }}">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Kontak</label>
+          <input type="text" name="kontak" class="form-control"
+                 value="{{ old('kontak', $penjual->kontak) }}">
+        </div>
+
+        <button type="submit" class="btn-orange w-100 mb-4">
+          Simpan Perubahan Toko
+        </button>
+      </form>
+
+      <hr>
+
+      {{-- UPDATE PASSWORD --}}
+      <h5 class="fw-bold mb-3 mt-4">Ubah Password</h5>
+
+      <form action="{{ route('penjual.profile.updatePassword') }}" method="POST">
+        @csrf
+
+        <div class="mb-3 position-relative">
+          <label>Password Lama</label>
+          <input type="password" name="current_password" class="form-control" required>
+        </div>
+
+        <div class="mb-3 position-relative">
+          <label>Password Baru</label>
+          <input type="password" name="new_password" class="form-control" required>
+        </div>
+
+        <div class="mb-3 position-relative">
+          <label>Konfirmasi Password Baru</label>
+          <input type="password" name="new_password_confirmation" class="form-control" required>
+        </div>
+
+        <button type="submit" class="btn-orange w-100">Perbarui Password</button>
+      </form>
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
 
     </main>
 
   </div>
 </div>
 
+<<<<<<< HEAD
 {{-- SCRIPT TOGGLE (Accordion Eksklusif) --}}
 <script>
     const sections = ['akun', 'toko', 'password'];
@@ -298,5 +417,31 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     @endif
 </script>
+=======
+{{-- SWEETALERT --}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+@if(session('success'))
+  <script>
+    Swal.fire({
+      icon: 'success',
+      title: 'Sukses!',
+      text: '{{ session('success') }}',
+      confirmButtonColor: '#e06629'
+    })
+  </script>
+@endif
+
+@if($errors->any())
+  <script>
+    Swal.fire({
+      icon: "error",
+      title: "Terjadi Kesalahan",
+      html: `{!! implode('<br>', $errors->all()) !!}`,
+      confirmButtonColor: "#e06629"
+    })
+  </script>
+@endif
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
 
 @endsection

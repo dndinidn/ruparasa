@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 @extends('dashboard.layout')
+=======
+@extends('dashboard.master')
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
 
 @section('konten')
 
@@ -114,7 +118,11 @@ body {
 
         <div class="mb-3">
           <label class="form-label fw-semibold">Nama</label>
+<<<<<<< HEAD
           <input type="text" name="name" class="form-control"
+=======
+          <input type="text" name="name" class="form-control" 
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
                  value="{{ old('name', $user->name) }}" required>
         </div>
 

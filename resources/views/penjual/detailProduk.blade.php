@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
 @extends('penjual.master')
 
 @section('konten')

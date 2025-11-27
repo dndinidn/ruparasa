@@ -25,13 +25,18 @@ class AuthController extends Controller
             'password' => 'required|min:6|confirmed',
         ]);
 
+<<<<<<< HEAD
         $user = User::create([
+=======
+        User::create([
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
             'name'     => $request->name,
             'email'    => $request->email,
             'password' => Hash::make($request->password),
             'role'     => 'user', // ✅ default user
         ]);
 
+<<<<<<< HEAD
        // Login sementara untuk kirim email verifikasi
         Auth::login($user);
 
@@ -41,6 +46,9 @@ class AuthController extends Controller
         // Arahkan ke halaman pemberitahuan
         return redirect()->route('verification.notice')
             ->with('success', 'Registrasi berhasil! Silakan cek email untuk verifikasi.');
+=======
+        return redirect()->route('login')->with('success', 'Registrasi berhasil! Silakan login.');
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
     }
 
         public function registerPenjual()
@@ -73,6 +81,7 @@ class AuthController extends Controller
             'kontak'    => $request->kontak,
         ]);
 
+<<<<<<< HEAD
         // Login sementara untuk kirim email verifikasi
         Auth::login($user);
 
@@ -82,6 +91,9 @@ class AuthController extends Controller
         // Arahkan ke halaman pemberitahuan
         return redirect()->route('verification.notice')
             ->with('success', 'Registrasi berhasil! Silakan cek email untuk verifikasi.');
+=======
+        return redirect()->route('login')->with('success', 'Registrasi berhasil! Silakan login.');
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
     }
 
     // 🔹 Tampilkan form login
@@ -93,6 +105,7 @@ class AuthController extends Controller
     // 🔹 Proses login (cek role)
     public function login(Request $request)
     {
+<<<<<<< HEAD
          $credentials = $request->validate([
             'email'    => ['required', 'email'],
             'password' => ['required'],
@@ -111,6 +124,14 @@ if ($user->role !== 'admin' && ! $user->hasVerifiedEmail()) {
 }
 
 
+=======
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+
+           $user = Auth::user();
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
 
         // Redirect berdasarkan role
         if ($user->role === 'penjual') {

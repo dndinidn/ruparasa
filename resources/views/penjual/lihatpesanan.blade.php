@@ -17,6 +17,7 @@
 <div class="container-fluid">
     <h1 class="h3 mb-4">Daftar Pesanan</h1>
 
+<<<<<<< HEAD
     {{-- Form Pencarian --}}
     <form action="{{ route('pesanan.lihat') }}" method="GET" class="mb-3">
         <div class="input-group" style="max-width: 320px;">
@@ -31,6 +32,8 @@
         </div>
     </form>
 
+=======
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session('success') }}
@@ -59,8 +62,13 @@
                         <td>#{{ $p->id }}</td>
 
                         <td class="text-right">{{ number_format($p->total,0,',','.') }}</td>
+<<<<<<< HEAD
                         {{-- <td class="text-right">{{ number_format($p->ongkir,0,',','.') }}</td> --}}
 <td class="text-right">Rp 15.000</td>
+=======
+                        <td class="text-right">{{ number_format($p->ongkir,0,',','.') }}</td>
+
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
                         <td>
                             @if($p->status == 'menunggu_konfirmasi')
                                 <span class="badge badge-secondary">Menunggu Konfirmasi</span>
@@ -89,10 +97,17 @@
                         </td>
 
                         <td>
+<<<<<<< HEAD
                             <form action="{{ route('pesanan.hapus', $p->id) }}"
                                   method="POST"
                                   onsubmit="return confirm('Yakin ingin menghapus pesanan ini?')">
 
+=======
+                            <form action="{{ route('pesanan.hapus', $p->id) }}" 
+                                  method="POST" 
+                                  onsubmit="return confirm('Yakin ingin menghapus pesanan ini?')">
+                                
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
                                 @csrf
                                 @method('DELETE')
 

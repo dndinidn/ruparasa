@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 class ResepController extends Controller
 {
     // 🔹 Menampilkan semua data resep di admin
+<<<<<<< HEAD
     public function index(Request $request)
 {
     $reseps = Resep::when($request->search, function ($q) use ($request) {
@@ -20,6 +21,13 @@ class ResepController extends Controller
     return view('admin.lihat-resep', compact('reseps'));
 }
 
+=======
+    public function index()
+    {
+        $reseps = Resep::latest()->get();
+        return view('admin.lihat-resep', compact('reseps'));
+    }
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
 
     // 🔹 Tampilkan form tambah resep
     public function create()

@@ -8,7 +8,11 @@ class Produk extends Model
 {
     use HasFactory;
     protected $table = 'produks';
+<<<<<<< HEAD
     protected $fillable = ['penjual_id', 'nama_produk', 'harga', 'stok', 'deskripsi','kategori','gambar'];
+=======
+    protected $fillable = ['penjual_id', 'nama_produk', 'harga', 'stok', 'deskripsi','gambar'];
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
 
     // Relasi ke Toko / Penjual
     public function penjual()
@@ -27,9 +31,12 @@ public function toko()
     return $this->belongsTo(Toko::class, 'penjual_id');
 }
 
+<<<<<<< HEAD
 public function reviews() {
     return $this->hasMany(Review::class);
 }
 
+=======
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
 
 }

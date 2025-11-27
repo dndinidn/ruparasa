@@ -81,7 +81,13 @@
 
         </div> -->
 
+<<<<<<< HEAD
        
+=======
+        <div class="text-center mt-4">
+            <a href="{{ route('resep.index.frontend') }}" class="btn btn-outline-primary">See More</a>
+        </div>
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
     </div>
 </div>
 

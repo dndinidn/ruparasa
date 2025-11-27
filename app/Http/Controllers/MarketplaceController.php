@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 class MarketplaceController extends Controller
 {
 
+<<<<<<< HEAD
     public function index(Request $request)
 {
     $query = Toko::with('user');
@@ -30,5 +31,15 @@ class MarketplaceController extends Controller
 }
 
 
+=======
+    public function index()
+    {
+        // Ambil semua data toko beserta relasi user (penjual)
+        $toko = Toko::with('user')->get();
+
+        return view('admin.marketplace', compact('toko'));
+    }
+
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
 
 }

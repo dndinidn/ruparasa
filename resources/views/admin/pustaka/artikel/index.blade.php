@@ -2,6 +2,7 @@
 
 @section('konten')
 <div class="container mt-4">
+<<<<<<< HEAD
     <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
         <h2 class="fw-bold mb-2 mb-md-0">📰 Daftar Artikel Pustaka</h2>
 
@@ -19,6 +20,13 @@
                 <i class="bi bi-plus-circle me-1"></i> Tambah Artikel
             </a>
         </div>
+=======
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">📰 Daftar Artikel Pustaka</h2>
+        <a href="{{ route('admin.artikel.create') }}" class="btn btn-primary shadow-sm">
+            <i class="bi bi-plus-circle me-1"></i> Tambah Artikel
+        </a>
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
     </div>
 
     {{-- Pesan sukses --}}
@@ -32,7 +40,11 @@
     {{-- Jika tidak ada artikel --}}
     @if ($artikels->isEmpty())
         <div class="alert alert-info text-center">
+<<<<<<< HEAD
             Tidak ada artikel ditemukan.
+=======
+            Belum ada artikel yang ditambahkan.
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
         </div>
     @else
         <div class="card shadow-sm border-0">

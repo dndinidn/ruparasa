@@ -4,6 +4,7 @@
 <div class="container-fluid py-4">
 
     <!-- Header -->
+<<<<<<< HEAD
     <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
         <div>
             <h2 class="h4 font-weight-bold text-primary mb-2 mb-md-0">Daftar Video Pustaka</h2>
@@ -22,6 +23,14 @@
             <!-- Tombol Tambah Video -->
             <a href="{{ route('admin.video.create') }}" class="btn btn-primary shadow-sm ms-2">Tambah Video</a>
         </div>
+=======
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="h4 font-weight-bold text-primary mb-0">Daftar Video Pustaka</h2>
+            <p class="text-muted mb-0">Kelola koleksi video dokumenter budaya secara efisien.</p>
+        </div>
+        <a href="{{ route('admin.video.create') }}" class="btn btn-primary shadow-sm">Tambah Video</a>
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
     </div>
 
     <!-- Alert sukses -->
@@ -43,7 +52,11 @@
 
         <div class="card-body bg-white">
             @if ($videos->isEmpty())
+<<<<<<< HEAD
                 <div class="text-center py-5 text-muted">Tidak ada video ditemukan.</div>
+=======
+                <div class="text-center py-5 text-muted">Belum ada video yang ditambahkan.</div>
+>>>>>>> b302f7085f1fc1bc4fee4453e6ab52673278ea7a
             @else
                 <div class="table-responsive">
                     <table class="table table-hover align-middle text-center">
